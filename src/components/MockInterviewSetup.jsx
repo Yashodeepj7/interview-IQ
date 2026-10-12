@@ -1,0 +1,483 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  Bot,
+  Sparkles,
+  ArrowRight,
+  Loader2,
+  AlertTriangle,
+  Layers,
+  Clock,
+  Gauge,
+  Briefcase,
+  Sliders,
+  CheckCircle2,
+  FileText,
+  HelpCircle,
+  Mic,
+  Keyboard,
+} from "lucide-react";
+
+const ROLE_PRESETS = [
+  "Frontend Developer",
+  "Backend Developer",
+  "Full Stack Developer",
+  "Data Analyst",
+  "Java Developer",
+  "DevOps Engineer",
+];
+
+const EXPERIENCE_OPTIONS = [
+  { value: "Fresher", label: "Fresher / Entry Level", desc: "Foundational questions & academic projects" },
+  { value: "0–2 years", label: "0–2 Years", desc: "Core implementation & junior workflows" },
+  { value: "3–5 years", label: "3–5 Years", desc: "System architecture, trade-offs & scaling" },
+  { value: "5+ years", label: "5+ Years", desc: "Staff-level design, leadership & ambiguity" },
+];
+
+const TYPE_OPTIONS = [
+  { value: "Technical", label: "Technical", desc: "Data structures, frameworks, system design, debugging" },
+  { value: "Mixed", label: "Mixed (Recommended)", desc: "Balanced blend of technical mastery & behavioral leadership" },
+  { value: "HR/Behavioral", label: "HR / Behavioral", desc: "STAR stories, teamwork, conflict resolution & culture" },
+];
+
+const COUNT_OPTIONS = [
+  { value: 5, label: "5 Questions", time: "~10-15 mins", tag: "Quick Practice" },
+  { value: 10, label: "10 Questions", time: "~25-30 mins", tag: "Standard Round" },
+  { value: 15, label: "15 Questions", time: "~40-50 mins", tag: "Deep Simulation" },
+];
+
+const DIFFICULTY_OPTIONS = [
+  { value: "Easy", label: "Easy", color: "border-emerald-500/40 text-emerald-300" },
+  { value: "Medium", label: "Medium", color: "border-indigo-500/40 text-indigo-300" },
+  { value: "Hard", label: "Hard", color: "border-rose-500/40 text-rose-300" },
+];
+
+export default function MockInterviewSetup() {
+  const router = useRouter();
+
+  const [role, setRole] = useState(ROLE_PRESETS[0]);
+  const [customRole, setCustomRole] = useState("");
+  const [useCustomRole, setUseCustomRole] = useState(false);
+  const [experience, setExperience] = useState("0–2 years");
+  const [type, setType] = useState("Mixed");
+  const [questionCount, setQuestionCount] = useState(5);
+  const [difficulty, setDifficulty] = useState("Medium");
+  const [topics, setTopics] = useState("");
+  const [inputMode, setInputMode] = useState("typed"); // 'typed' or 'voice'
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const activeRole = useCustomRole ? customRole.trim() : role;
+  const isRoleValid = activeRole.length >= 2 && activeRole.length <= 100;
+
+  async function handleStartInterview(e) {
+    e.preventDefault();
+    if (!isRoleValid || isLoading) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    const payload = {
+      role: activeRole,
+      experience,
+      type,
+      questionCount: Number(questionCount),
+      difficulty,
+      topics: topics.trim() || undefined,
+    };
+
+    try {
+      const response = await fetch("/api/interview/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data);
+        setIsLoading(false);
+        return;
+      }
+
+      // Store in sessionStorage for current browser session (non-sensitive session data only)
+      if (typeof window !== "undefined") {
+        data.settings.inputMode = inputMode;
+        sessionStorage.setItem("interviewiq_active_session", JSON.stringify(data));
+        sessionStorage.setItem("interviewiq_session_answers", JSON.stringify({}));
+        sessionStorage.removeItem("interviewiq_session_evaluation");
+      }
+
+      // Navigate to interactive session
+      router.push("/mock-interview/session");
+    } catch (err) {
+      setError({
+        success: false,
+        error: "Network error occurred while generating interview session.",
+        details: err?.message || "Please check your network connection and server status.",
+      });
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      {/* Top Breadcrumb & Status */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <Link
+          href="/"
+          className="text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+        >
+          ← Return to Dashboard
+        </Link>
+        <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 border border-indigo-500/20">
+          Step 3: AI Mock Interview Engine
+        </span>
+      </div>
+
+      {/* Page Title */}
+      <div className="mb-10 text-center">
+        <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 shadow-lg shadow-indigo-600/30 mb-4">
+          <Bot className="h-6 w-6 text-white" />
+        </div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          Configure Your Mock Interview
+        </h1>
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
+          Customize your role, experience level, and format. Gemini will synthesize a realistic, targeted set of questions designed to test your real-world skills.
+        </p>
+      </div>
+
+      {/* Setup Form Card */}
+      <form
+        onSubmit={handleStartInterview}
+        className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 sm:p-10 backdrop-blur-xl shadow-2xl shadow-indigo-950/40 space-y-8"
+      >
+        {/* Field 1: Target Role */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+            <Briefcase className="h-4 w-4 text-indigo-400" />
+            <span>Target Role</span>
+          </label>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-3">
+            {ROLE_PRESETS.map((preset) => (
+              <button
+                key={preset}
+                type="button"
+                onClick={() => {
+                  setRole(preset);
+                  setUseCustomRole(false);
+                }}
+                className={`rounded-xl px-3 py-2.5 text-xs font-medium border text-left transition-all ${
+                  !useCustomRole && role === preset
+                    ? "border-indigo-500 bg-indigo-600/20 text-white font-semibold shadow-sm"
+                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                }`}
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setUseCustomRole(!useCustomRole)}
+              className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
+            >
+              {useCustomRole ? "Use preset roles" : "+ Or specify a custom role"}
+            </button>
+          </div>
+
+          {useCustomRole && (
+            <div className="mt-3">
+              <input
+                type="text"
+                value={customRole}
+                onChange={(e) => setCustomRole(e.target.value)}
+                placeholder="e.g. iOS Engineer, Cloud Solutions Architect, Product Manager..."
+                className="w-full rounded-xl border border-slate-800 bg-slate-950/80 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 transition-colors"
+              />
+              {customRole.trim().length > 0 && customRole.trim().length < 2 && (
+                <p className="mt-1 text-xs text-amber-400">Role must be at least 2 characters.</p>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Field 2: Experience Level */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+            <Gauge className="h-4 w-4 text-indigo-400" />
+            <span>Experience Level</span>
+          </label>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {EXPERIENCE_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setExperience(opt.value)}
+                className={`rounded-2xl p-4 border text-left transition-all ${
+                  experience === opt.value
+                    ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm ring-1 ring-indigo-500/30"
+                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                }`}
+              >
+                <div className="font-semibold text-sm text-slate-200">
+                  {opt.label}
+                </div>
+                <div className="text-xs text-slate-400 mt-1">{opt.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Field 3: Interview Type */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+            <Layers className="h-4 w-4 text-indigo-400" />
+            <span>Interview Format</span>
+          </label>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {TYPE_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setType(opt.value)}
+                className={`rounded-2xl p-4 border text-left transition-all ${
+                  type === opt.value
+                    ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm ring-1 ring-indigo-500/30"
+                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                }`}
+              >
+                <div className="font-semibold text-sm text-slate-200">
+                  {opt.label}
+                </div>
+                <div className="text-xs text-slate-400 mt-1">{opt.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Field 4 & 5: Question Count & Difficulty */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* Question Count */}
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+              <Clock className="h-4 w-4 text-indigo-400" />
+              <span>Question Count</span>
+            </label>
+
+            <div className="grid grid-cols-3 gap-2">
+              {COUNT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setQuestionCount(opt.value)}
+                  className={`rounded-xl p-3 border text-center transition-all ${
+                    questionCount === opt.value
+                      ? "border-indigo-500 bg-indigo-600/20 text-white font-semibold"
+                      : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                  }`}
+                >
+                  <div className="text-sm font-bold text-white">{opt.value}</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">{opt.time}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Difficulty */}
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+              <Sliders className="h-4 w-4 text-indigo-400" />
+              <span>Difficulty</span>
+            </label>
+
+            <div className="grid grid-cols-3 gap-2">
+              {DIFFICULTY_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setDifficulty(opt.value)}
+                  className={`rounded-xl p-3 border text-center transition-all ${
+                    difficulty === opt.value
+                      ? "border-indigo-500 bg-indigo-600/20 text-white font-bold"
+                      : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                  }`}
+                >
+                  <div className="text-sm font-semibold">{opt.label}</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5">Tier</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Field 6: Response Mode Preference */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
+            <Mic className="h-4 w-4 text-indigo-400" />
+            <span>Response Mode Preference</span>
+          </label>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setInputMode("typed")}
+              className={`rounded-2xl p-4 border text-left transition-all ${
+                inputMode === "typed"
+                  ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm"
+                  : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+              }`}
+            >
+              <div className="flex items-center gap-2.5 mb-1.5">
+                <Keyboard className={`h-4 w-4 ${inputMode === "typed" ? "text-indigo-400" : "text-slate-500"}`} />
+                <span className="font-bold text-sm text-slate-100">Typed Mode</span>
+                {inputMode === "typed" && (
+                  <span className="ml-auto rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] font-semibold text-indigo-300">
+                    Selected
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Standard keyboard input with live character count and autosave.
+              </p>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setInputMode("voice")}
+              className={`rounded-2xl p-4 border text-left transition-all ${
+                inputMode === "voice"
+                  ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm"
+                  : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+              }`}
+            >
+              <div className="flex items-center gap-2.5 mb-1.5">
+                <Mic className={`h-4 w-4 ${inputMode === "voice" ? "text-indigo-400" : "text-slate-500"}`} />
+                <span className="font-bold text-sm text-slate-100">Voice Mode</span>
+                {inputMode === "voice" && (
+                  <span className="ml-auto rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] font-semibold text-indigo-300">
+                    Selected
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Dictate answers with Web Speech recognition and audio read-aloud.
+              </p>
+            </button>
+          </div>
+          <p className="text-[11px] text-slate-500 mt-2">
+            You can also switch freely between typed and voice input at any time during your session.
+          </p>
+        </div>
+
+        {/* Field 7: Optional Job Description or Focus Topics */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label
+              htmlFor="interview-topics-textarea"
+              className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2"
+            >
+              <FileText className="h-4 w-4 text-indigo-400" />
+              <span>Specific Topics or Job Description (Optional)</span>
+            </label>
+            <span className="text-xs text-slate-500 font-mono">
+              {topics.length} / 1500
+            </span>
+          </div>
+          <textarea
+            id="interview-topics-textarea"
+            rows={3}
+            value={topics}
+            maxLength={1500}
+            onChange={(e) => setTopics(e.target.value)}
+            placeholder="Paste excerpts from your target job description, or list key concepts you want to practice (e.g. React hooks, microservices, Kafka, Redis caching, executive presentation)..."
+            className="w-full rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 resize-y transition-colors font-sans"
+          />
+        </div>
+
+        {/* Error Notification Alert */}
+        {error && (
+          <div className="rounded-2xl border border-rose-500/30 bg-rose-950/20 p-5 text-xs text-rose-200">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
+              <div className="space-y-2 w-full">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-sm text-rose-300">
+                    {error.setupRequired
+                      ? "Configuration Required: API Key Missing"
+                      : error.error || "Generation Failed"}
+                  </h4>
+                  {error.setupRequired && (
+                    <span className="rounded-full bg-rose-500/20 px-2 py-0.5 text-[10px] font-semibold text-rose-300">
+                      HTTP 503
+                    </span>
+                  )}
+                </div>
+
+                {error.instructions && (
+                  <div className="rounded-xl bg-black/40 p-3.5 border border-rose-900/40 text-slate-300">
+                    <p className="font-semibold text-slate-200 mb-1">
+                      Setup Instructions:
+                    </p>
+                    <p className="text-slate-300 mb-2">{error.instructions}</p>
+                    <div className="bg-slate-950 p-2.5 rounded-lg font-mono text-[11px] text-indigo-300 border border-slate-800">
+                      # D:/Project/interview-iq/.env.local<br />
+                      GEMINI_API_KEY=your_gemini_api_key_here<br />
+                      GEMINI_MODEL=gemini-3.8-flash
+                    </div>
+                  </div>
+                )}
+
+                {error.details && (
+                  <p className="text-rose-300/80 leading-relaxed font-mono text-[11px]">
+                    Details: {error.details}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Submit Action */}
+        <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-xs text-slate-400 flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+            <span>
+              Configured: {questionCount} questions • {difficulty} • {type} • {inputMode === "voice" ? "Voice Mode" : "Typed Mode"}
+            </span>
+          </div>
+
+          <button
+            type="submit"
+            id="start-interview-submit-btn"
+            disabled={!isRoleValid || isLoading}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-50 active:scale-95 transition-all"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin text-white" />
+                <span>Generating Interview Plan with Gemini...</span>
+              </>
+            ) : (
+              <>
+                <span>Start Mock Interview</span>
+                <ArrowRight className="h-4 w-4" />
+              </>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

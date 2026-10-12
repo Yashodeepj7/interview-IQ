@@ -6,10 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "init-db": "node scripts/init-indexes.js"
   },
   "dependencies": {
+    "@google/genai": "^2.28.0",
+    "bcryptjs": "^3.0.3",
+    "lucide-react": "^1.55.0",
+    "mongodb": "^7.7.0",
     "next": "16.4.0",
+    "next-auth": "^5.0.0-beta.32",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
