@@ -22,9 +22,10 @@ export default function Navbar({ onOpenMockModal }) {
   const isAuthenticated = status === "authenticated" && Boolean(session?.user);
 
   const baseNavLinks = [
-    { label: "Features", href: "#features" },
+    { label: "Features", href: "/#features" },
+    { label: "Resume Analyzer", href: "/resume-analyzer" },
+    { label: "Job Matcher", href: "/job-matcher" },
     { label: "Mock Interview", href: "/mock-interview" },
-    { label: "Resume Analyzer", href: "/features/resume-analyzer" },
     { label: "Performance", href: "/features/performance-dashboard" },
     { label: "Career Roadmap", href: "/features/career-roadmap" },
   ];

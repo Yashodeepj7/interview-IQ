@@ -15,9 +15,10 @@ const featuresData = [
     description:
       "Upload your resume to receive rigorous ATS scoring, bullet-point impact audits, and keyword optimization tailored to modern hiring algorithms.",
     icon: FileText,
-    stepNumber: "Step 2",
+    stepNumber: "Step 3",
     category: "Resume Intelligence",
     slug: "resume-analyzer",
+    actionHref: "/resume-analyzer",
     highlights: [
       "Deep ATS compatibility score & parsing test",
       "Action-verb & quantifiable impact metric audit",
@@ -31,9 +32,10 @@ const featuresData = [
     description:
       "Paste any target job description alongside your profile to instantly identify critical qualification gaps, missing tech keywords, and strategic talking points.",
     icon: Target,
-    stepNumber: "Step 2",
+    stepNumber: "Step 3",
     category: "Target Alignment",
     slug: "job-description-matcher",
+    actionHref: "/job-matcher",
     highlights: [
       "Semantic similarity score between resume and JD",
       "High-priority missing skill & requirement alert",

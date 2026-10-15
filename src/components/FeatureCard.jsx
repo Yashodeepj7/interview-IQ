@@ -10,9 +10,13 @@ export default function FeatureCard({
   category,
   highlights = [],
   slug,
+  actionHref,
   accentClass = "from-indigo-500/20 to-violet-500/20 text-indigo-400 border-indigo-500/30",
   iconBg = "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
 }) {
+  const targetHref = actionHref || (slug === "resume-analyzer" ? "/resume-analyzer" : slug === "job-description-matcher" ? "/job-matcher" : `/features/${slug}`);
+  const isDirectFeature = Boolean(actionHref || slug === "resume-analyzer" || slug === "job-description-matcher");
+
   return (
     <div
       id={id}
@@ -66,13 +70,16 @@ export default function FeatureCard({
 
       {/* Footer Link / Action */}
       <div className="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between">
-        <span className="inline-flex items-center text-xs font-semibold text-indigo-400 group-hover:text-indigo-300">
-          Architecture & Roadmap
-        </span>
         <Link
-          href={`/features/${slug}`}
+          href={targetHref}
+          className="inline-flex items-center text-xs font-semibold text-indigo-400 hover:text-indigo-300 group-hover:underline"
+        >
+          {isDirectFeature ? "Launch Feature" : "Architecture & Roadmap"}
+        </Link>
+        <Link
+          href={targetHref}
           className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-800/70 text-slate-300 transition-colors hover:bg-indigo-600 hover:text-white"
-          aria-label={`View roadmap for ${title}`}
+          aria-label={`Open ${title}`}
         >
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </Link>

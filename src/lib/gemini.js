@@ -46,8 +46,44 @@ function sanitizeError(error) {
     return error;
   }
 
-  const safeMessage = error?.message
-    ? error.message.replace(/key=[^&\s]+/gi, "key=[REDACTED]")
+  const rawMsg = error?.message || "";
+  const lowerMsg = rawMsg.toLowerCase();
+
+  // Handle transient provider high-demand, 503, or undici request clone retry errors
+  const isHighDemandOrUnavailable =
+    error?.status === 503 ||
+    lowerMsg.includes("503") ||
+    lowerMsg.includes("high demand") ||
+    lowerMsg.includes("service_unavailable") ||
+    lowerMsg.includes("service unavailable") ||
+    lowerMsg.includes("typeerror: unusable");
+
+  if (isHighDemandOrUnavailable) {
+    const highDemandError = new Error(
+      "Gemini AI provider is currently experiencing temporary high demand. Please try again in a moment."
+    );
+    highDemandError.code = "SERVICE_UNAVAILABLE";
+    highDemandError.status = 503;
+    return highDemandError;
+  }
+
+  const isRateLimited =
+    error?.status === 429 ||
+    lowerMsg.includes("quota") ||
+    lowerMsg.includes("rate limit") ||
+    lowerMsg.includes("resource exhausted");
+
+  if (isRateLimited) {
+    const rateLimitError = new Error(
+      "Gemini API rate limit or quota exceeded. Please wait a moment and try again."
+    );
+    rateLimitError.code = "RATE_LIMIT_EXCEEDED";
+    rateLimitError.status = 429;
+    return rateLimitError;
+  }
+
+  const safeMessage = rawMsg
+    ? rawMsg.replace(/key=[^&\s]+/gi, "key=[REDACTED]")
     : "Gemini provider request failed.";
 
   const sanitized = new Error(safeMessage);

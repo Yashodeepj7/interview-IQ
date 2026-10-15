@@ -11,40 +11,40 @@ import {
 const featureDetails = {
   "resume-analyzer": {
     title: "AI Resume Analyzer",
-    step: "Step 2",
-    status: "Upcoming in Next Step",
-    tagline: "High-precision ATS scoring & keyword impact benchmarking",
+    step: "Step 3",
+    status: "Active & Functional",
+    tagline: "Evidence-based competency audit & bullet impact rewrites",
     description:
-      "The AI Resume Analyzer will parse PDF/text resumes, analyze formatting and layout, extract competencies, and evaluate each bullet point against modern recruiter rubrics.",
+      "Extract readable text from PDF resumes in-memory, generate concise executive summaries, categorize demonstrated skills with verified evidence, and provide action-oriented bullet rewrites powered by Gemini.",
     plannedFeatures: [
-      "Client-side PDF & text resume upload and parsing",
-      "Action-verb and quantifiable metric scanner",
-      "ATS compatibility checklist and layout diagnostics",
-      "Bullet-point rewrite recommendations for maximum impact",
+      "In-memory PDF text extraction with signature verification",
+      "Evidence-based categorized skills & competencies",
+      "Executive candidate profile summary",
+      "Action-verb & quantifiable bullet rewrite suggestions",
     ],
     technicalHighlights: [
-      "Gemini API structured JSON schema generation (in Step 2)",
-      "Strict data sanitization & PII protection",
-      "Dynamic score visualization meters",
+      "Zero-disk persistence for maximum PII security",
+      "Gemini structured JSON schema validation",
+      "Prompt-injection defense wrappers",
     ],
   },
   "job-description-matcher": {
     title: "Job Description Matcher",
-    step: "Step 2",
-    status: "Upcoming in Next Step",
+    step: "Step 3",
+    status: "Active & Functional",
     tagline: "Semantic role comparison & critical skill gap analysis",
     description:
-      "Compare your resume against any target job posting to find direct keyword matches, semantic overlaps, missing qualifications, and prioritized talking points.",
+      "Compare your resume directly against any target job posting to find demonstrated skill overlaps, critical qualification gaps, requirement evidence maps, and practical recommendations.",
     plannedFeatures: [
       "Side-by-side comparison interface (Resume vs. Job Description)",
-      "Match percentage score and qualification tier breakdown",
-      "Must-have vs. Nice-to-have skill differentiation",
-      "Automated interview question predictor based on the job description",
+      "Heuristic alignment score with ethical disclaimer compliance",
+      "Evidence-based matching vs missing skill breakdown",
+      "Truthful resume bullet adaptation recommendations",
     ],
     technicalHighlights: [
-      "High-accuracy semantic similarity matching",
-      "Real-time text tokenization and diffing",
-      "Exportable interview cheat-sheet",
+      "Server-side PDF extraction with unpdf",
+      "Strict 15,000 char job description validation",
+      "Structured Gemini AI evaluation schema",
     ],
   },
   "voice-mock-interviewer": {
@@ -259,6 +259,26 @@ export default async function FeaturePage({ params }) {
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Return to Dashboard</span>
             </Link>
+
+            {slug === "resume-analyzer" && (
+              <Link
+                href="/resume-analyzer"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all"
+              >
+                <span>Launch AI Resume Analyzer</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            )}
+
+            {slug === "job-description-matcher" && (
+              <Link
+                href="/job-matcher"
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-600/30 transition-all"
+              >
+                <span>Launch Job Matcher</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            )}
 
             {slug === "voice-mock-interviewer" && (
               <Link
