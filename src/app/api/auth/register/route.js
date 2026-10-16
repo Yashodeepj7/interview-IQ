@@ -112,10 +112,24 @@ export async function POST(request) {
     }
 
     const safeErr = sanitizeMongoError(error);
+    const msg = (safeErr.message || "").toLowerCase();
+
+    const isNetworkOrWhitelistError =
+      msg.includes("ssl alert") ||
+      msg.includes("tlsv1 alert") ||
+      msg.includes("econnrefused") ||
+      msg.includes("etimedout") ||
+      msg.includes("server selection") ||
+      msg.includes("querysrv");
+
+    const friendlyError = isNetworkOrWhitelistError
+      ? "Unable to connect to MongoDB Atlas. Please ensure your current IP address is allowed in MongoDB Atlas under Network Access (IP Access List)."
+      : "Registration failed due to a database error. Please try again later.";
+
     return Response.json(
       {
         success: false,
-        error: "Registration failed due to a database error. Please try again later.",
+        error: friendlyError,
         details: safeErr.message,
       },
       { status: 500 }
