@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -14,8 +14,13 @@ import {
   Check,
   Terminal,
   Cpu,
-  HelpCircle,
+  Layers,
+  RefreshCw,
+  Zap,
+  Info,
   Loader2,
+  HelpCircle,
+  ShieldCheck,
 } from "lucide-react";
 
 const SAMPLE_PROMPTS = [
@@ -40,6 +45,24 @@ export default function AITestClient() {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [latencyMs, setLatencyMs] = useState(null);
+  const [providerStatus, setProviderStatus] = useState(null);
+
+  // Fetch real-time provider configuration status on mount
+  useEffect(() => {
+    fetchStatus();
+  }, []);
+
+  async function fetchStatus() {
+    try {
+      const res = await fetch("/api/ai/test");
+      if (res.ok) {
+        const data = await res.json();
+        setProviderStatus(data);
+      }
+    } catch {
+      // Ignore background status fetch error
+    }
+  }
 
   const trimmedLength = prompt.trim().length;
   const isInputValid = trimmedLength >= 3 && trimmedLength <= 1000;
@@ -70,6 +93,8 @@ export default function AITestClient() {
         setError(data);
       } else {
         setResponse(data);
+        // Refresh provider status to update lastExecution telemetry
+        fetchStatus();
       }
     } catch (err) {
       setError({
@@ -98,7 +123,7 @@ export default function AITestClient() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      {/* Top Breadcrumb & Status */}
+      {/* Top Breadcrumb & Dual Provider Status */}
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <Link
           href="/"
@@ -108,9 +133,41 @@ export default function AITestClient() {
           <span>Back to InterviewIQ Home</span>
         </Link>
 
-        <div className="flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300">
-          <Cpu className="h-3.5 w-3.5 text-indigo-400" />
-          <span>Gemini 3.8 Flash Integration Engine</span>
+        {/* Dual AI Engine Indicator */}
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Gemini Primary status */}
+          <div
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold border ${
+              providerStatus?.geminiConfigured
+                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+                : "border-slate-800 bg-slate-900/60 text-slate-400"
+            }`}
+          >
+            <span
+              className={`h-2 w-2 rounded-full ${
+                providerStatus?.geminiConfigured ? "bg-emerald-400 animate-pulse" : "bg-slate-600"
+              }`}
+            />
+            <span>Gemini: {providerStatus?.geminiConfigured ? "Active" : "Not Set"}</span>
+          </div>
+
+          {/* Groq Fallback status */}
+          <div
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold border ${
+              providerStatus?.groqConfigured
+                ? "border-amber-500/30 bg-amber-500/10 text-amber-300"
+                : "border-slate-800 bg-slate-900/60 text-slate-400"
+            }`}
+          >
+            <RefreshCw className="h-3 w-3 text-amber-400" />
+            <span>Groq Fallback: {providerStatus?.groqConfigured ? "Ready" : "Not Set"}</span>
+          </div>
+
+          {providerStatus?.fallbackForced && (
+            <div className="flex items-center gap-1.5 rounded-full border border-orange-500/40 bg-orange-500/15 px-3 py-1 text-xs font-bold text-orange-300 animate-pulse">
+              <span>TEST SIMULATOR FORCED</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -120,11 +177,11 @@ export default function AITestClient() {
           <Bot className="h-6 w-6 text-white" />
         </div>
         <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-          Test Your AI Connection
+          AI Connection & Failover Test
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
-          Verify end-to-end integration with Google’s official Gemini SDK (`@google/genai`).
-          Requests are processed through a protected server-side route ensuring zero client credential exposure.
+          Verify resilient dual-provider AI integration with Google Gemini as primary and Groq
+          as zero-downtime automatic fallback when Gemini free quota or tokens are exhausted.
         </p>
       </div>
 
@@ -216,7 +273,7 @@ export default function AITestClient() {
               {isLoading ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin text-white" />
-                  <span>Connecting to Gemini...</span>
+                  <span>Invoking AI Engine (Gemini / Groq)...</span>
                 </>
               ) : (
                 <>
@@ -256,9 +313,9 @@ export default function AITestClient() {
                       {error.instructions}
                     </p>
                     <div className="bg-slate-950 p-2.5 rounded-lg font-mono text-[11px] text-indigo-300 border border-slate-800">
-                      # D:/Project/interview-iq/.env.local<br />
+                      # .env.local<br />
                       GEMINI_API_KEY=your_gemini_api_key_here<br />
-                      GEMINI_MODEL=gemini-3.8-flash
+                      GROQ_API_KEY=your_groq_api_key_here
                     </div>
                   </div>
                 )}
@@ -273,20 +330,61 @@ export default function AITestClient() {
           </div>
         )}
 
-        {/* State: Success Response Display */}
+        {/* State: Success Response Display with Active Provider Badge */}
         {response && response.text && (
-          <div className="mt-8 rounded-2xl border border-emerald-500/30 bg-slate-950/80 p-5 backdrop-blur-md">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                <span className="text-xs font-semibold text-emerald-300">
-                  Real Gemini Response Received
-                </span>
-                <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-300 border border-emerald-500/20">
-                  {response.model || "gemini-3.8-flash"}
-                </span>
+          <div
+            className={`mt-8 rounded-2xl border p-5 backdrop-blur-md transition-all ${
+              response.provider === "groq" || response.fallback
+                ? "border-amber-500/50 bg-gradient-to-b from-amber-950/20 to-slate-950/90 shadow-xl shadow-amber-950/30"
+                : "border-emerald-500/30 bg-slate-950/80 shadow-xl shadow-emerald-950/20"
+            }`}
+          >
+            {/* Active Provider Banner */}
+            {response.provider === "groq" || response.fallback ? (
+              <div className="mb-4 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3.5 text-xs text-amber-200">
+                <RefreshCw className="h-4 w-4 text-amber-400 shrink-0 mt-0.5 animate-spin" style={{ animationDuration: "6s" }} />
+                <div>
+                  <div className="font-bold text-amber-300 flex items-center gap-2">
+                    <span>🔄 Automatic Fallback Active: Groq Engine Used</span>
+                    <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[10px] font-mono text-amber-300">
+                      Zero Downtime
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[11px] text-amber-200/90 leading-relaxed">
+                    {response.reason ||
+                      "Gemini tokens/quota reached or fallback testing mode is enabled. The system seamlessly failed over to Groq without any interruption!"}
+                  </p>
+                </div>
+              </div>
+            ) : null}
+
+            {/* Header with Provider Metadata */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3 mb-4">
+              <div className="flex flex-wrap items-center gap-2">
+                {response.provider === "groq" || response.fallback ? (
+                  <>
+                    <Zap className="h-4 w-4 text-amber-400" />
+                    <span className="text-xs font-bold text-amber-300">
+                      Groq Fallback Response
+                    </span>
+                    <span className="rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[10px] font-mono font-semibold text-amber-300 border border-amber-500/30">
+                      {response.model || "openai/gpt-oss-120b"}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                    <span className="text-xs font-bold text-emerald-300">
+                      Gemini Primary Response
+                    </span>
+                    <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-mono font-semibold text-emerald-300 border border-emerald-500/20">
+                      {response.model || "gemini-3.8-flash"}
+                    </span>
+                  </>
+                )}
+
                 {latencyMs && (
-                  <span className="text-[11px] text-slate-400">
+                  <span className="text-[11px] text-slate-400 font-mono">
                     • {latencyMs}ms
                   </span>
                 )}
@@ -317,7 +415,10 @@ export default function AITestClient() {
             </div>
 
             <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-500">
-              <span>Verified server-side connection</span>
+              <span className="flex items-center gap-1.5">
+                <span className={`h-1.5 w-1.5 rounded-full ${response.provider === "groq" ? "bg-amber-400" : "bg-emerald-400"}`} />
+                Provider: <strong className="text-slate-300 capitalize">{response.provider || "gemini"}</strong>
+              </span>
               <span className="font-mono">
                 {response.timestamp
                   ? new Date(response.timestamp).toLocaleTimeString()
@@ -328,8 +429,80 @@ export default function AITestClient() {
         )}
       </div>
 
+      {/* Guide: How to Test Gemini Exhaustion & Groq Fallback */}
+      <div className="mt-8 rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/15 via-slate-900/60 to-slate-950/80 p-6 sm:p-7 backdrop-blur-xl">
+        <div className="flex items-start gap-3.5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
+            <HelpCircle className="h-5 w-5" />
+          </div>
+          <div className="space-y-3 w-full">
+            <div>
+              <h3 className="font-bold text-sm text-white">
+                How to Test When Gemini Free Tokens End & Fallback Activates
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">
+                You can easily verify that the Groq fallback takes over using any of these 3 methods:
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3 pt-1">
+              {/* Method 1 */}
+              <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 p-3.5 text-xs space-y-1.5">
+                <div className="flex items-center gap-2 text-indigo-300 font-bold">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-500/20 text-[11px]">1</span>
+                  <span>Instant Simulator</span>
+                </div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
+                  In your <code className="text-indigo-300">.env.local</code> file, add:
+                </p>
+                <code className="block rounded bg-black/60 p-2 font-mono text-[10px] text-amber-300 border border-slate-800">
+                  FORCE_AI_FALLBACK=true
+                </code>
+                <p className="text-slate-500 text-[10px]">
+                  Restart server. Every request instantly uses Groq without using Gemini quota!
+                </p>
+              </div>
+
+              {/* Method 2 */}
+              <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 p-3.5 text-xs space-y-1.5">
+                <div className="flex items-center gap-2 text-amber-300 font-bold">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-500/20 text-[11px]">2</span>
+                  <span>Simulate Expired Key</span>
+                </div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
+                  Put an invalid/dummy key in <code className="text-indigo-300">.env.local</code>:
+                </p>
+                <code className="block rounded bg-black/60 p-2 font-mono text-[10px] text-amber-300 border border-slate-800">
+                  GEMINI_API_KEY=test_invalid
+                </code>
+                <p className="text-slate-500 text-[10px]">
+                  Gemini will throw an error; the engine automatically catches it and routes to Groq!
+                </p>
+              </div>
+
+              {/* Method 3 */}
+              <div className="rounded-xl border border-slate-800/80 bg-slate-950/70 p-3.5 text-xs space-y-1.5">
+                <div className="flex items-center gap-2 text-emerald-300 font-bold">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-[11px]">3</span>
+                  <span>Natural Exhaustion</span>
+                </div>
+                <p className="text-slate-400 text-[11px] leading-relaxed">
+                  When your free 15 requests/minute or token limit is reached:
+                </p>
+                <code className="block rounded bg-black/60 p-2 font-mono text-[10px] text-emerald-300 border border-slate-800">
+                  429 Quota Exceeded
+                </code>
+                <p className="text-slate-500 text-[10px]">
+                  Users experience zero downtime — Groq takes over completely silently.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Security Architecture Reference */}
-      <div className="mt-8 rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 text-xs text-slate-400">
+      <div className="mt-6 rounded-2xl border border-slate-800/80 bg-slate-950/40 p-5 text-xs text-slate-400">
         <div className="flex items-start gap-3">
           <Terminal className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
@@ -338,13 +511,13 @@ export default function AITestClient() {
             </span>
             <ul className="list-disc list-inside space-y-1 text-slate-400 mt-1">
               <li>
-                <strong className="text-slate-300">Server-Side Only:</strong> The official Google Gen AI SDK client is initialized strictly on the server in <code className="text-indigo-300">src/lib/gemini.js</code>.
+                <strong className="text-slate-300">Server-Side Only:</strong> Both Google GenAI SDK and Groq OpenAI-compatible client execute strictly server-side in <code className="text-indigo-300">src/lib/gemini.js</code>.
               </li>
               <li>
-                <strong className="text-slate-300">Zero Client Exposure:</strong> No API keys, credentials, or raw stack traces are sent to the browser or bundled in client chunks.
+                <strong className="text-slate-300">Zero Client Exposure:</strong> Neither <code className="text-indigo-300">GEMINI_API_KEY</code> nor <code className="text-indigo-300">GROQ_API_KEY</code> are ever sent to the browser or bundled in client scripts.
               </li>
               <li>
-                <strong className="text-slate-300">Input Guardrails:</strong> Prompts are strictly validated (3 to 1000 characters) before reaching the provider.
+                <strong className="text-slate-300">Automatic Failover:</strong> Triggered on HTTP 429, HTTP 503, Quota Exceeded, Resource Exhausted, or Missing Gemini Key.
               </li>
             </ul>
           </div>

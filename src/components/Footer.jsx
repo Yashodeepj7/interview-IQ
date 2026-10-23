@@ -1,130 +1,147 @@
 import Link from "next/link";
-import { Bot, Sparkles, Github, Heart } from "lucide-react";
+import { Bot, Sparkles, Mic, FileText, BarChart3, Compass, Brain, ExternalLink } from "lucide-react";
+
+const featureLinks = [
+  { label: "AI Resume Analyzer", href: "/resume-analyzer", icon: FileText },
+  { label: "Voice Mock Interviewer", href: "/mock-interview", icon: Mic },
+  { label: "AI Answer Evaluation", href: "/features/answer-evaluation-feedback", icon: Sparkles },
+  { label: "Performance Dashboard", href: "/features/performance-dashboard", icon: BarChart3 },
+  { label: "Career Roadmap", href: "/features/career-roadmap", icon: Compass },
+  { label: "Real-Time AI Coaching", href: "/mock-interview", icon: Brain },
+];
+
+const companyLinks = [
+  { label: "About", href: "/" },
+  { label: "Blog", href: "/" },
+  { label: "Privacy Policy", href: "/" },
+  { label: "Terms of Service", href: "/" },
+];
+
+const techLinks = [
+  { label: "Next.js (App Router)", href: "/" },
+  { label: "Google Gemini AI", href: "/" },
+  { label: "NextAuth.js", href: "/" },
+  { label: "Lucide Icons", href: "/" },
+  { label: "AI Test Console", href: "/ai-test" },
+];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-800/80 bg-[#070b12] py-12 text-slate-400">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          {/* Brand Info */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 shadow-md shadow-indigo-500/20">
+    <footer className="relative border-t border-slate-200 bg-slate-50/50 dark:border-white/5 dark:bg-transparent pt-16 pb-8 text-slate-600 dark:text-slate-400 overflow-hidden transition-colors duration-200">
+      {/* Subtle top glow */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-32 w-96 -translate-y-1/2 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
+          {/* Brand */}
+          <div className="md:col-span-4">
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <div className="logo-icon flex h-10 w-10 items-center justify-center rounded-xl transition-transform group-hover:scale-105 group-hover:rotate-3 duration-300">
                 <Bot className="h-5 w-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-white tracking-tight">
-                Interview<span className="text-indigo-400">IQ</span>
-              </span>
+              <div>
+                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">
+                  Interview<span className="text-indigo-600 dark:text-indigo-400">IQ</span>
+                </span>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-none mt-0.5">AI Interview Platform</p>
+              </div>
             </Link>
-            <p className="mt-3 text-xs leading-relaxed text-slate-400">
-              AI-Powered Career & Mock Interview Platform designed for candidates striving for excellence.
+
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400 max-w-xs">
+              The most realistic AI-powered interview platform. Practice voice mock interviews, 
+              get STAR-graded feedback, and land your dream role.
             </p>
-            <div className="mt-4 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-2.5 py-1 text-[11px] font-medium text-slate-300 border border-slate-800">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                Step 1: Project Foundation Complete
+
+            {/* Status badge */}
+            <div className="mt-5 inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200 dark:bg-slate-900/60 dark:border-white/6 px-3 py-2 text-xs shadow-xs">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500">
+                <span className="animate-ping inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500 opacity-75" />
               </span>
+              <span className="text-slate-700 dark:text-slate-300 font-medium">All systems operational</span>
             </div>
           </div>
 
-          {/* Planned Features */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+          {/* Features */}
+          <div className="md:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-slate-200 mb-5">
               Features
             </h4>
-            <ul className="mt-4 space-y-2 text-xs">
-              <li>
-                <Link
-                  href="/features/resume-analyzer"
-                  className="hover:text-indigo-300 transition-colors"
-                >
-                  AI Resume Analyzer (Step 2)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/features/job-description-matcher"
-                  className="hover:text-indigo-300 transition-colors"
-                >
-                  Job Description Matcher (Step 2)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/mock-interview"
-                  className="hover:text-indigo-300 transition-colors"
-                >
-                  AI Mock Interview Engine (Step 3)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/features/answer-evaluation-feedback"
-                  className="hover:text-indigo-300 transition-colors"
-                >
-                  Answer Evaluation & Feedback (Step 4)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/features/performance-dashboard"
-                  className="hover:text-indigo-300 transition-colors"
-                >
-                  Performance Dashboard (Step 5)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/features/career-roadmap"
-                  className="hover:text-indigo-300 transition-colors"
-                >
-                  Personalized Career Roadmap (Step 6)
-                </Link>
-              </li>
+            <ul className="space-y-3">
+              {featureLinks.map(({ label, href, icon: Icon }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="group flex items-center gap-2 text-sm text-slate-600 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-300 transition-colors font-medium"
+                  >
+                    <Icon className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 text-indigo-600 dark:text-indigo-400 transition-all -translate-x-1 group-hover:translate-x-0" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div className="md:col-span-2">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-slate-200 mb-5">
+              Company
+            </h4>
+            <ul className="space-y-3">
+              {companyLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors font-medium"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Tech Stack */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-              Technology Stack
+          <div className="md:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-slate-200 mb-5">
+              Built With
             </h4>
-            <ul className="mt-4 space-y-2 text-xs text-slate-400">
-              <li>Next.js (App Router)</li>
-              <li>JavaScript (ES6+)</li>
-              <li>React & Tailwind CSS</li>
-              <li>ESLint Architecture</li>
-              <li>Lucide Icons</li>
-              <li>
-                <Link
-                  href="/ai-test"
-                  className="text-indigo-400 hover:text-indigo-300 transition-colors"
-                >
-                  Gemini AI Test Console
-                </Link>
-              </li>
+            <ul className="space-y-3">
+              {techLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    href={href}
+                    className="text-sm text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors font-medium"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
 
-          {/* Project Guidelines */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
-              Step 1 Highlights
-            </h4>
-            <p className="mt-4 text-xs leading-relaxed text-slate-400">
-              Clean modular architecture, modern SaaS design system, zero mock AI fake endpoints, and responsive mobile-ready layout.
-            </p>
-            <div className="mt-4 text-xs text-slate-500">
-              Next Step: Step 2 — AI Resume Analyzer & Job Description Matcher.
+            {/* AI badge */}
+            <div className="mt-6 rounded-xl border border-indigo-200 bg-indigo-50/70 p-4 dark:border-indigo-500/20 dark:bg-gradient-to-br dark:from-indigo-500/8 dark:to-violet-500/5">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+                <span className="text-xs font-bold text-indigo-800 dark:text-indigo-300">Powered by Gemini</span>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
+                Real AI. No mock endpoints. Every interview is powered by Google Gemini.
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-10 border-t border-slate-800/80 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        {/* Divider */}
+        <div className="section-divider mt-12 mb-8" />
+
+        {/* Bottom bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400 font-medium">
           <p>© 2026 InterviewIQ. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Built with modern React & Tailwind CSS
+          <p>
+            Crafted with{" "}
+            <span className="text-rose-500">♥</span>{" "}
+            using Next.js & Google Gemini AI
           </p>
         </div>
       </div>

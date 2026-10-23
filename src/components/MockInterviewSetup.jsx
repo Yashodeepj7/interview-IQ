@@ -142,13 +142,13 @@ export default function MockInterviewSetup() {
 
       {/* Page Title */}
       <div className="mb-10 text-center">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 shadow-lg shadow-indigo-600/30 mb-4">
+        <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 shadow-lg shadow-indigo-600/30 mb-4 ring-1 ring-white/20">
           <Bot className="h-6 w-6 text-white" />
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
           Configure Your Mock Interview
         </h1>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 font-normal">
           Customize your role, experience level, and format. Gemini will synthesize a realistic, targeted set of questions designed to test your real-world skills.
         </p>
       </div>
@@ -156,7 +156,7 @@ export default function MockInterviewSetup() {
       {/* Setup Form Card */}
       <form
         onSubmit={handleStartInterview}
-        className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 sm:p-10 backdrop-blur-xl shadow-2xl shadow-indigo-950/40 space-y-8"
+        className="rounded-3xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900/70 p-6 sm:p-10 shadow-xl shadow-indigo-100/30 dark:shadow-2xl dark:shadow-indigo-950/40 space-y-8 transition-colors"
       >
         {/* Field 1: Target Role */}
         <div>

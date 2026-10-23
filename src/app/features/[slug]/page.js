@@ -158,19 +158,19 @@ export default async function FeaturePage({ params }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between">
+    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--foreground)] flex flex-col justify-between transition-colors duration-200">
       {/* Top Header */}
-      <header className="border-b border-slate-800/80 bg-[#090d16]/80 backdrop-blur-md sticky top-0 z-20">
+      <header className="border-b border-slate-200 bg-white/85 dark:border-slate-800/80 dark:bg-[#0b0f19]/80 backdrop-blur-md sticky top-0 z-20">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 border border-indigo-500/20">
+            <span className="rounded-full bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/20">
               {feature.step} Milestone
             </span>
           </div>
@@ -180,62 +180,62 @@ export default async function FeaturePage({ params }) {
       {/* Main Content */}
       <main className="mx-auto max-w-4xl px-4 py-12 sm:py-20 sm:px-6 lg:px-8 w-full flex-1">
         {/* Roadmap Indicator Banner */}
-        <div className="rounded-2xl border border-indigo-500/30 bg-slate-900/80 p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-indigo-950/20">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-5">
+        <div className="rounded-2xl border border-slate-200 bg-white dark:border-indigo-500/30 dark:bg-slate-900/80 p-6 sm:p-8 backdrop-blur-xl shadow-xl shadow-indigo-100/30 dark:shadow-indigo-950/20">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-5">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-amber-400">
+              <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
                 {feature.status}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-slate-400">
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
               <Clock className="h-3.5 w-3.5" />
               <span>Step 1 Active — Feature Staged</span>
             </div>
           </div>
 
           <div className="mt-6">
-            <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
               {feature.title}
             </h1>
-            <p className="mt-2 text-base text-indigo-400 font-medium">
+            <p className="mt-2 text-base text-indigo-600 dark:text-indigo-400 font-semibold">
               {feature.tagline}
             </p>
-            <p className="mt-4 text-sm leading-relaxed text-slate-300">
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
               {feature.description}
             </p>
           </div>
 
           {/* Planned Deliverables */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-xl bg-slate-950/60 p-5 border border-slate-800">
+            <div className="rounded-xl bg-slate-50 dark:bg-slate-950/60 p-5 border border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2 mb-3">
-                <Layers className="h-4 w-4 text-indigo-400" />
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+                <Layers className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
                   Planned Product Capabilities
                 </h3>
               </div>
-              <ul className="space-y-2.5 text-xs text-slate-300">
+              <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-300">
                 {feature.plannedFeatures.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="rounded-xl bg-slate-950/60 p-5 border border-slate-800">
+            <div className="rounded-xl bg-slate-50 dark:bg-slate-950/60 p-5 border border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2 mb-3">
-                <Code2 className="h-4 w-4 text-violet-400" />
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+                <Code2 className="h-4 w-4 text-violet-600 dark:text-violet-400" />
+                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
                   Engineering Architecture
                 </h3>
               </div>
-              <ul className="space-y-2.5 text-xs text-slate-300">
+              <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-300">
                 {feature.technicalHighlights.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-violet-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400 shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -244,17 +244,17 @@ export default async function FeaturePage({ params }) {
           </div>
 
           {/* Notice Box */}
-          <div className="mt-8 rounded-xl bg-slate-950/80 p-4 border border-indigo-900/40 text-xs text-slate-400 leading-relaxed">
-            <span className="font-semibold text-slate-200">
+          <div className="mt-8 rounded-xl bg-indigo-50/70 dark:bg-slate-950/80 p-4 border border-indigo-200 dark:border-indigo-900/40 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            <span className="font-bold text-slate-900 dark:text-slate-200">
               Engineering Status Notice:{" "}
             </span>
             As specified in the step-by-step roadmap, Step 1 focuses on scaffolding, component architecture, and the polished landing/dashboard shell. The functional implementation for {feature.title} will be developed in {feature.step}.
           </div>
 
-          <div className="mt-8 pt-5 border-t border-slate-800 flex flex-wrap justify-between items-center gap-3">
+          <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-800 flex flex-wrap justify-between items-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900 px-4 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-all"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-white transition-all shadow-xs"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               <span>Return to Dashboard</span>
@@ -290,7 +290,7 @@ export default async function FeaturePage({ params }) {
               </Link>
             )}
 
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
               interview-iq • v0.1.0
             </span>
           </div>
@@ -298,7 +298,7 @@ export default async function FeaturePage({ params }) {
       </main>
 
       {/* Mini footer */}
-      <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-400">
+      <footer className="border-t border-slate-200 dark:border-slate-800/80 py-6 text-center text-xs text-slate-500 dark:text-slate-400">
         InterviewIQ AI Platform • Step 1 Project Foundation
       </footer>
     </div>

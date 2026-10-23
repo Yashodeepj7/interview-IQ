@@ -1,7 +1,7 @@
 import {
-  generateJSONResponse,
-  isGeminiConfigured,
-  getGeminiModel,
+  generateJSONResponseWithMetadata,
+  isAIConfigured,
+  getLastAIExecutionDetails,
 } from "@/lib/gemini";
 
 const ALLOWED_EXPERIENCES = [
@@ -134,15 +134,15 @@ export async function POST(request) {
     }
   }
 
-  // 8. Verify server-side Gemini configuration
-  if (!isGeminiConfigured()) {
+  // 8. Verify server-side AI configuration (Gemini primary or Groq fallback)
+  if (!isAIConfigured()) {
     return Response.json(
       {
         success: false,
-        error: "Gemini API key is not configured.",
+        error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY in your .env.local file.",
         setupRequired: true,
         instructions:
-          "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+          "Add your GEMINI_API_KEY (or fallback GROQ_API_KEY) to your .env.local and restart the development server.",
       },
       { status: 503 }
     );
@@ -199,9 +199,15 @@ You MUST respond with a single valid JSON object strictly matching this schema:
 
 Do not include any text before or after the JSON. Return only the JSON object.`;
 
-  // 10. Call Gemini for structured plan
+  // 10. Call AI engine for structured plan (Gemini primary with automatic Groq fallback)
   try {
-    const rawResult = await generateJSONResponse(prompt);
+    const {
+      data: rawResult,
+      provider,
+      model,
+      fallback,
+      reason,
+    } = await generateJSONResponseWithMetadata(prompt);
 
     if (!rawResult || !Array.isArray(rawResult.questions) || rawResult.questions.length === 0) {
       return Response.json(
@@ -251,6 +257,10 @@ Do not include any text before or after the JSON. Return only the JSON object.`;
     return Response.json({
       success: true,
       interviewId,
+      provider,
+      model,
+      fallback,
+      reason: reason || undefined,
       settings: {
         role,
         experience,
@@ -266,10 +276,10 @@ Do not include any text before or after the JSON. Return only the JSON object.`;
       return Response.json(
         {
           success: false,
-          error: "Gemini API key is not configured.",
+          error: "No AI provider is configured.",
           setupRequired: true,
           instructions:
-            "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+            "Add your GEMINI_API_KEY or GROQ_API_KEY to your .env.local and restart the development server.",
         },
         { status: 503 }
       );
@@ -286,7 +296,7 @@ Do not include any text before or after the JSON. Return only the JSON object.`;
       return Response.json(
         {
           success: false,
-          error: "Gemini API rate limit or quota exceeded. Please wait a moment and try again.",
+          error: "AI rate limit or free quota exceeded on all providers. Please wait a moment and try again.",
         },
         { status: 429 }
       );

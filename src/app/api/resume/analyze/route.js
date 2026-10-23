@@ -1,21 +1,21 @@
-import { isGeminiConfigured, generateJSONResponse } from "@/lib/gemini";
+import { isAIConfigured, generateJSONResponseWithMetadata } from "@/lib/gemini";
 import { extractTextFromPDF } from "@/lib/pdf-parser";
 import { validateResumeAnalysisOutput } from "@/lib/validation-helpers";
 
 /**
  * POST /api/resume/analyze
- * Extracts text from an uploaded PDF resume and analyzes it with Gemini.
+ * Extracts text from an uploaded PDF resume and analyzes it with AI (Gemini primary, Groq fallback).
  */
 export async function POST(request) {
-  // 1. Check if Gemini API key is configured before processing
-  if (!isGeminiConfigured()) {
+  // 1. Check if AI service is configured before processing
+  if (!isAIConfigured()) {
     return Response.json(
       {
         success: false,
-        error: "Gemini API key is not configured.",
+        error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY in your .env.local file.",
         setupRequired: true,
         instructions:
-          "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+          "Add your GEMINI_API_KEY (or fallback GROQ_API_KEY) to your .env.local and restart the development server.",
       },
       { status: 503 }
     );
@@ -140,13 +140,17 @@ ${extracted.text}
 </UNTRUSTED_RESUME_CONTENT>
 `;
 
-  // 5. Call Gemini service
+  // 5. Call AI service with automatic fallback
   try {
-    const rawResult = await generateJSONResponse(prompt);
+    const { data: rawResult, provider, model, fallback, reason } = await generateJSONResponseWithMetadata(prompt);
     const validatedData = validateResumeAnalysisOutput(rawResult);
 
     return Response.json({
       success: true,
+      provider,
+      model,
+      fallback,
+      reason: reason || undefined,
       data: {
         ...validatedData,
         documentMetadata: {
@@ -164,7 +168,7 @@ ${extracted.text}
       return Response.json(
         {
           success: false,
-          error: "Gemini API key is not configured.",
+          error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY.",
           setupRequired: true,
         },
         { status: 503 }

@@ -198,7 +198,7 @@ export default function ResumeAnalyzerPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--foreground)] flex flex-col justify-between transition-colors duration-200">
       <Navbar />
 
       <main className="flex-1 mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 w-full">
@@ -206,14 +206,14 @@ export default function ResumeAnalyzerPage() {
         <div className="flex items-center justify-between mb-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="h-4 w-4 text-indigo-400" />
+            <ArrowLeft className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             <span>Back to Dashboard</span>
           </Link>
           <div className="flex items-center gap-2">
-            <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 border border-indigo-500/30 flex items-center gap-1.5">
-              <Sparkles className="h-3 w-3 text-indigo-400" />
+            <span className="rounded-full bg-indigo-50 dark:bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/30 flex items-center gap-1.5">
+              <Sparkles className="h-3 w-3 text-indigo-600 dark:text-indigo-400" />
               <span>Step 3 • AI Resume Intelligence</span>
             </span>
           </div>
@@ -221,10 +221,10 @@ export default function ResumeAnalyzerPage() {
 
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl md:text-5xl">
             AI Resume Analyzer
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
             Upload your PDF resume to receive evidence-based competency categorization, executive profile summary, and quantifiable bullet rewrites powered by Gemini.
           </p>
         </div>

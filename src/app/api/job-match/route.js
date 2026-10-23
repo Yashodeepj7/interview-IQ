@@ -1,21 +1,21 @@
-import { isGeminiConfigured, generateJSONResponse } from "@/lib/gemini";
+import { isAIConfigured, generateJSONResponseWithMetadata } from "@/lib/gemini";
 import { extractTextFromPDF } from "@/lib/pdf-parser";
 import { validateJobDescription, validateJobMatchOutput } from "@/lib/validation-helpers";
 
 /**
  * POST /api/job-match
- * Compares an uploaded PDF resume against a pasted job description using Gemini.
+ * Compares an uploaded PDF resume against a pasted job description using AI (Gemini primary, Groq fallback).
  */
 export async function POST(request) {
-  // 1. Verify Gemini API key is configured
-  if (!isGeminiConfigured()) {
+  // 1. Verify AI service is configured
+  if (!isAIConfigured()) {
     return Response.json(
       {
         success: false,
-        error: "Gemini API key is not configured.",
+        error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY in your .env.local file.",
         setupRequired: true,
         instructions:
-          "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+          "Add your GEMINI_API_KEY (or fallback GROQ_API_KEY) to your .env.local and restart the development server.",
       },
       { status: 503 }
     );
@@ -151,13 +151,17 @@ ${extracted.text}
 </UNTRUSTED_RESUME_CONTENT>
 `;
 
-  // 5. Generate and validate structured response
+  // 5. Generate and validate structured response with automatic Groq fallback
   try {
-    const rawResult = await generateJSONResponse(prompt);
+    const { data: rawResult, provider, model, fallback, reason } = await generateJSONResponseWithMetadata(prompt);
     const validatedData = validateJobMatchOutput(rawResult);
 
     return Response.json({
       success: true,
+      provider,
+      model,
+      fallback,
+      reason: reason || undefined,
       data: {
         ...validatedData,
         metadata: {
@@ -174,7 +178,7 @@ ${extracted.text}
       return Response.json(
         {
           success: false,
-          error: "Gemini API key is not configured.",
+          error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY.",
           setupRequired: true,
         },
         { status: 503 }

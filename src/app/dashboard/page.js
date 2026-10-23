@@ -82,7 +82,7 @@ export default function DashboardPage() {
 
   if (status === "loading" || (status === "authenticated" && loading)) {
     return (
-      <div className="relative min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
+      <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--foreground)] flex flex-col justify-between transition-colors duration-200">
         <Navbar />
         <main className="flex-1 flex items-center justify-center py-24">
           <div className="text-center">
@@ -147,7 +147,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--foreground)] flex flex-col justify-between transition-colors duration-200">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">

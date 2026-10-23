@@ -56,12 +56,11 @@ function LoginForm() {
         return;
       }
 
-      // Safe destination redirect
       const safeTarget = callbackUrl.startsWith("/") ? callbackUrl : "/dashboard";
       router.push(safeTarget);
       router.refresh();
-    } catch (err) {
-      setError("An unexpected error occurred during sign-in. Please try again.");
+    } catch {
+      setError("An unexpected error occurred during sign in. Please try again.");
       setIsLoading(false);
     }
   };
@@ -73,22 +72,22 @@ function LoginForm() {
         <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 shadow-lg shadow-indigo-600/30 mb-4 ring-1 ring-white/20">
           <Bot className="h-6 w-6 text-white" />
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-white">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Welcome back
         </h1>
-        <p className="mt-2 text-sm text-slate-400">
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
           Sign in to access your saved interview history, analytics, and AI evaluations.
         </p>
       </div>
 
       {/* Card */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 sm:p-8 backdrop-blur-xl shadow-2xl shadow-indigo-950/30">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-xl shadow-indigo-100/40 dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-2xl dark:shadow-indigo-950/30 transition-colors">
         {justRegistered && !error && (
           <div
             role="status"
-            className="mb-6 flex items-start gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-950/30 p-4 text-xs text-emerald-300"
+            className="mb-6 flex items-start gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-950/30 p-4 text-xs text-emerald-800 dark:text-emerald-300"
           >
-            <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400 mt-0.5" />
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
             <div className="leading-relaxed">
               Your account was created successfully! Please sign in with your credentials below.
             </div>
@@ -98,9 +97,9 @@ function LoginForm() {
         {error && (
           <div
             role="alert"
-            className="mb-6 flex items-start gap-3 rounded-2xl border border-rose-500/30 bg-rose-950/30 p-4 text-xs text-rose-300"
+            className="mb-6 flex items-start gap-3 rounded-2xl border border-rose-500/30 bg-rose-50 dark:bg-rose-950/30 p-4 text-xs text-rose-800 dark:text-rose-300"
           >
-            <AlertCircle className="h-5 w-5 shrink-0 text-rose-400 mt-0.5" />
+            <AlertCircle className="h-5 w-5 shrink-0 text-rose-600 dark:text-rose-400 mt-0.5" />
             <div className="leading-relaxed">{error}</div>
           </div>
         )}
@@ -110,12 +109,12 @@ function LoginForm() {
           <div>
             <label
               htmlFor="login-email"
-              className="block text-xs font-semibold text-slate-300 mb-1.5"
+              className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5"
             >
               Email Address
             </label>
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                 <Mail className="h-4 w-4" />
               </div>
               <input
@@ -130,7 +129,7 @@ function LoginForm() {
                 }}
                 placeholder="you@example.com"
                 disabled={isLoading}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950/60 py-2.5 pl-10 pr-3.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-indigo-500 focus:bg-slate-950 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-60"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-3.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-indigo-600 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-600 dark:border-slate-800 dark:bg-slate-950/60 dark:text-white dark:placeholder-slate-500 disabled:opacity-60"
               />
             </div>
           </div>
@@ -139,12 +138,12 @@ function LoginForm() {
           <div>
             <label
               htmlFor="login-password"
-              className="block text-xs font-semibold text-slate-300 mb-1.5"
+              className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5"
             >
               Password
             </label>
             <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                 <Lock className="h-4 w-4" />
               </div>
               <input
@@ -159,7 +158,7 @@ function LoginForm() {
                 }}
                 placeholder="••••••••"
                 disabled={isLoading}
-                className="w-full rounded-xl border border-slate-800 bg-slate-950/60 py-2.5 pl-10 pr-3.5 text-sm text-white placeholder-slate-500 transition-colors focus:border-indigo-500 focus:bg-slate-950 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-60"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-3.5 text-sm text-slate-900 placeholder-slate-400 transition-colors focus:border-indigo-600 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-600 dark:border-slate-800 dark:bg-slate-950/60 dark:text-white dark:placeholder-slate-500 disabled:opacity-60"
               />
             </div>
           </div>
@@ -188,12 +187,12 @@ function LoginForm() {
         </form>
 
         {/* Switch to Register */}
-        <div className="mt-6 border-t border-slate-800/80 pt-4 text-center">
-          <p className="text-xs text-slate-400">
+        <div className="mt-6 border-t border-slate-100 dark:border-slate-800/80 pt-4 text-center">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Don&apos;t have an account yet?{" "}
             <Link
               href="/register"
-              className="font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+              className="font-bold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
             >
               Sign up here
             </Link>
@@ -206,14 +205,14 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="relative min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--foreground)] flex flex-col justify-between transition-colors duration-200">
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <Suspense
           fallback={
-            <div className="text-center py-12 text-slate-400 text-xs">
-              <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2 text-indigo-500" />
+            <div className="text-center py-12 text-slate-500 text-xs">
+              <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2 text-indigo-600" />
               Loading sign in...
             </div>
           }

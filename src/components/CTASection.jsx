@@ -1,41 +1,96 @@
-import { ArrowRight, Sparkles, Bot, ShieldCheck } from "lucide-react";
+"use client";
+
+import { ArrowRight, Sparkles, Mic, CheckCircle, Zap, Star } from "lucide-react";
+
+const proofPoints = [
+  { icon: CheckCircle, text: "No credit card required" },
+  { icon: Zap, text: "Instant AI feedback" },
+  { icon: Star, text: "STAR-method graded" },
+];
 
 export default function CTASection({ onOpenMockModal }) {
   return (
-    <section className="relative py-20">
+    <section className="relative py-20 sm:py-28 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl border border-indigo-500/30 bg-gradient-to-b from-indigo-950/40 via-slate-900/80 to-slate-950 p-8 sm:p-14 text-center backdrop-blur-xl shadow-2xl shadow-indigo-950/30">
-          {/* Ambient glow in card */}
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-48 w-96 rounded-full bg-indigo-500/20 blur-3xl -z-10" />
+        {/* Card */}
+        <div className="relative overflow-hidden rounded-3xl border border-indigo-200/80 dark:border-indigo-500/25 backdrop-blur-2xl text-center shadow-2xl shadow-indigo-500/10 dark:shadow-indigo-950/40">
+          {/* Card background */}
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background: `
+                radial-gradient(ellipse 80% 70% at 50% -15%, rgba(99, 102, 241, 0.35), transparent 65%),
+                linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%)
+              `,
+            }}
+          />
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold text-indigo-300">
-            <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-            <span>Step into Your Next Interview with Unshakable Confidence</span>
+          {/* Animated grid inside card */}
+          <div className="absolute inset-0 -z-10 animated-grid opacity-35" />
+
+          {/* Top glow */}
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 h-64 w-[600px] rounded-full bg-indigo-500/25 blur-3xl -z-10" />
+
+          {/* Floating orb decorations */}
+          <div className="absolute top-8 left-8 h-24 w-24 rounded-full bg-violet-500/15 blur-2xl" />
+          <div className="absolute bottom-8 right-8 h-24 w-24 rounded-full bg-cyan-500/15 blur-2xl" />
+
+          {/* Content */}
+          <div className="relative z-10 px-8 py-16 sm:py-20 sm:px-16">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-indigo-500/20 px-4 py-1.5 text-xs font-semibold text-indigo-200 mb-6 backdrop-blur-md">
+              <Sparkles className="h-3.5 w-3.5 text-indigo-300" />
+              <span>Step Into Your Next Interview with Unshakable Confidence</span>
+            </div>
+
+            {/* Heading */}
+            <h2 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl sm:leading-tight">
+              Ready to{" "}
+              <span className="bg-gradient-to-r from-indigo-200 via-violet-200 to-white bg-clip-text text-transparent">
+                Land Your
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-indigo-300 to-violet-300 bg-clip-text text-transparent">
+                Dream Role?
+              </span>
+            </h2>
+
+            {/* Sub text */}
+            <p className="mx-auto mt-6 max-w-2xl text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
+              Practice with our voice AI, receive instant STAR-graded feedback, eliminate filler words, 
+              and arrive at real interviews{" "}
+              <span className="text-white font-semibold">fully prepared and confident.</span>
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                type="button"
+                id="cta-bottom-start-mock-btn"
+                onClick={onOpenMockModal}
+                className="group relative flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-2xl px-10 py-4 text-base font-semibold text-white active:scale-[0.98] transition-all duration-200 shadow-xl shadow-indigo-600/40"
+                style={{
+                  background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%)",
+                  boxShadow: "0 0 0 1px rgba(99,102,241,0.55), 0 8px 36px rgba(79,70,229,0.45), 0 1px 0 rgba(255,255,255,0.20) inset",
+                }}
+              >
+                <Mic className="h-5 w-5 relative z-10" />
+                <span className="relative z-10">Start Your Mock Interview Now</span>
+                <ArrowRight className="h-4 w-4 relative z-10 transition-transform group-hover:translate-x-1" />
+                <span className="absolute inset-0 bg-gradient-to-r from-indigo-400/20 to-violet-400/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </button>
+            </div>
+
+            {/* Proof points */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium">
+              {proofPoints.map(({ icon: Icon, text }) => (
+                <div key={text} className="flex items-center gap-1.5">
+                  <Icon className="h-3.5 w-3.5 text-emerald-400" />
+                  <span>{text}</span>
+                </div>
+              ))}
+            </div>
           </div>
-
-          <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Ready to Ace Your Dream Role?
-          </h2>
-
-          <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-slate-300">
-            Practice realistic mock interviews, eliminate filler words, refine your STAR stories, and receive instant AI feedback before talking to real interviewers.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              type="button"
-              id="cta-bottom-start-mock-btn"
-              onClick={onOpenMockModal}
-              className="group flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-600/30 transition-all hover:from-indigo-500 hover:to-violet-500 hover:shadow-indigo-500/40 active:scale-95"
-            >
-              <span>Start Your Mock Interview Now</span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </button>
-          </div>
-
-          <p className="mt-5 text-xs text-slate-400">
-            No credit card required • Instant AI feedback • Interactive practice
-          </p>
         </div>
       </div>
     </section>

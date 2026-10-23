@@ -1,7 +1,12 @@
 import {
-  generateAIResponse,
+  generateAIResponseWithMetadata,
+  isAIConfigured,
   isGeminiConfigured,
+  isGroqConfigured,
+  isFallbackForced,
+  getLastAIExecutionDetails,
   getGeminiModel,
+  getGroqModel,
 } from "@/lib/gemini";
 
 export async function POST(request) {
@@ -43,46 +48,50 @@ export async function POST(request) {
     );
   }
 
-  // 3. Verify server-side configuration before calling Gemini
-  if (!isGeminiConfigured()) {
+  // 3. Verify server-side configuration before calling AI
+  if (!isAIConfigured()) {
     return Response.json(
       {
         success: false,
-        error: "Gemini API key is not configured.",
+        error: "No AI provider is configured. Please configure either GEMINI_API_KEY or GROQ_API_KEY in your .env.local file.",
         setupRequired: true,
         instructions:
-          "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+          "Add GEMINI_API_KEY (or fallback GROQ_API_KEY) to your .env.local file and restart the development server.",
       },
       { status: 503 }
     );
   }
 
-  // 4. Execute AI generation via server service
+  // 4. Execute AI generation via server service with automatic Groq failover
   try {
-    const text = await generateAIResponse(trimmedMessage);
+    const result = await generateAIResponseWithMetadata(trimmedMessage);
 
     return Response.json({
       success: true,
-      model: getGeminiModel(),
-      text,
+      provider: result.provider,
+      model: result.model,
+      fallback: result.fallback,
+      reason: result.reason || undefined,
+      text: result.text,
+      geminiConfigured: isGeminiConfigured(),
+      groqConfigured: isGroqConfigured(),
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    // Missing key error check
-    if (error?.code === "MISSING_API_KEY") {
+    if (error?.code === "MISSING_API_KEY" || error?.code === "MISSING_GROQ_API_KEY") {
       return Response.json(
         {
           success: false,
-          error: "Gemini API key is not configured.",
+          error: error.message,
           setupRequired: true,
           instructions:
-            "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+            "Add your GEMINI_API_KEY or GROQ_API_KEY to .env.local and restart the development server.",
         },
         { status: 503 }
       );
     }
 
-    // Rate-limiting / quota check
+    // Rate-limiting / quota check across both providers
     const errorMessageLower = (error?.message || "").toLowerCase();
     const isRateLimited =
       error?.status === 429 ||
@@ -94,24 +103,42 @@ export async function POST(request) {
       return Response.json(
         {
           success: false,
-          error: "Gemini API rate limit or quota exceeded. Please wait a moment and try again.",
+          error: "AI rate limit or free quota exceeded on all providers. Please wait a moment and try again.",
         },
         { status: 429 }
       );
     }
 
-    // Generic safe provider error without exposing stack traces or API keys
     const safeErrorNotice = error?.message
       ? error.message.replace(/key=[^&\s]+/gi, "key=[REDACTED]")
-      : "Gemini provider request encountered an unexpected issue.";
+      : "AI provider request encountered an unexpected issue.";
 
     return Response.json(
       {
         success: false,
-        error: "Gemini API request failed.",
+        error: "AI provider request failed.",
         details: safeErrorNotice,
       },
-      { status: 502 }
+      { status: error?.status && error.status >= 400 && error.status < 600 ? error.status : 502 }
     );
   }
 }
+
+export async function GET() {
+  return Response.json({
+    geminiConfigured: isGeminiConfigured(),
+    geminiModel: getGeminiModel(),
+    groqConfigured: isGroqConfigured(),
+    groqModel: getGroqModel(),
+    fallbackForced: isFallbackForced(),
+    activeEngine: isFallbackForced()
+      ? "groq (simulated fallback)"
+      : isGeminiConfigured()
+      ? "gemini (primary)"
+      : isGroqConfigured()
+      ? "groq (fallback)"
+      : "none",
+    lastExecution: getLastAIExecutionDetails(),
+  });
+}
+

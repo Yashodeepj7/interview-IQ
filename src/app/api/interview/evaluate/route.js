@@ -1,7 +1,8 @@
 import {
-  generateJSONResponse,
+  generateJSONResponseWithMetadata,
+  isAIConfigured,
   isGeminiConfigured,
-  getGeminiModel,
+  isGroqConfigured,
 } from "@/lib/gemini";
 
 /**
@@ -157,15 +158,15 @@ export async function POST(request) {
     );
   }
 
-  // 5. Verify server-side Gemini configuration
-  if (!isGeminiConfigured()) {
+  // 5. Verify server-side AI configuration (Gemini primary or Groq fallback)
+  if (!isAIConfigured()) {
     return Response.json(
       {
         success: false,
-        error: "Gemini API key is not configured.",
+        error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY in your .env.local file.",
         setupRequired: true,
         instructions:
-          "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+          "Add your GEMINI_API_KEY (or fallback GROQ_API_KEY) to your .env.local and restart the development server.",
       },
       { status: 503 }
     );
@@ -273,9 +274,15 @@ Return ONLY a valid JSON object matching this schema:
 
 No markdown code fences or conversational text. Return only the JSON object.`;
 
-  // 7. Call Gemini service
+  // 7. Call AI engine (Gemini with automatic Groq fallback)
   try {
-    const rawResult = await generateJSONResponse(prompt);
+    const {
+      data: rawResult,
+      provider,
+      model,
+      fallback,
+      reason,
+    } = await generateJSONResponseWithMetadata(prompt);
 
     if (!rawResult || typeof rawResult !== "object") {
       return Response.json(
@@ -421,17 +428,20 @@ No markdown code fences or conversational text. Return only the JSON object.`;
       questionEvaluations: normalizedQuestionEvaluations,
       disclaimer:
         "AI-generated evaluation is an estimate for practice and skill development, not a hiring decision or employment guarantee.",
-      model: getGeminiModel(),
+      provider,
+      model,
+      fallback,
+      reason: reason || undefined,
     });
   } catch (error) {
     if (error?.code === "MISSING_API_KEY") {
       return Response.json(
         {
           success: false,
-          error: "Gemini API key is not configured.",
+          error: "No AI provider is configured.",
           setupRequired: true,
           instructions:
-            "Add your GEMINI_API_KEY to D:/Project/interview-iq/.env.local and restart the development server.",
+            "Add your GEMINI_API_KEY or GROQ_API_KEY to your .env.local and restart the development server.",
         },
         { status: 503 }
       );
@@ -448,7 +458,7 @@ No markdown code fences or conversational text. Return only the JSON object.`;
       return Response.json(
         {
           success: false,
-          error: "Gemini API rate limit or quota exceeded. Please wait a moment and try again.",
+          error: "AI rate limit or free quota exceeded on all providers. Please wait a moment and try again.",
         },
         { status: 429 }
       );

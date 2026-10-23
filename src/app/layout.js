@@ -1,5 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import AuthProvider from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,17 +13,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
 export const metadata = {
-  title: "InterviewIQ — AI-Powered Career & Mock Interview Platform",
+  title: "InterviewIQ — AI-Powered Mock Interview Platform",
   description:
-    "Supercharge your career preparation with AI-driven voice mock interviews, resume ATS analysis, job matching, and real-time performance analytics.",
+    "Ace your next interview with AI-driven voice mock interviews, real-time STAR analysis, ATS resume audits, and performance analytics. Practice smarter, land your dream role.",
   keywords: [
     "AI Mock Interview",
-    "Career Coach",
+    "Interview Preparation",
     "Resume Analyzer",
-    "Tech Interview Preparation",
+    "Tech Interview Practice",
     "STAR Method Feedback",
-    "Job Description Matcher",
+    "Voice AI Interviewer",
+    "Career Coaching",
   ],
 };
 
@@ -35,12 +44,34 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#090d16] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200">
-        <AuthProvider>{children}</AuthProvider>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('interviewiq-theme');
+                  if (saved === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.style.colorScheme = 'dark';
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.style.colorScheme = 'light';
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-[var(--bg-base)] text-[var(--foreground)] selection:bg-indigo-500/20 selection:text-indigo-600 dark:selection:bg-indigo-500/30 dark:selection:text-indigo-200 transition-colors duration-200">
+        <AuthProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
 }
-
