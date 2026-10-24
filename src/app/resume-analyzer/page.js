@@ -260,8 +260,8 @@ export default function ResumeAnalyzerPage() {
               onDrop={handleDrop}
               className={`relative rounded-3xl border-2 border-dashed p-8 sm:p-12 text-center transition-all duration-300 backdrop-blur-xl ${
                 isDragging
-                  ? "border-indigo-400 bg-indigo-950/40 shadow-2xl shadow-indigo-500/20 scale-[1.01]"
-                  : "border-slate-800 bg-slate-900/60 hover:border-indigo-500/40 hover:bg-slate-900/80"
+                  ? "border-indigo-500 bg-indigo-50/80 dark:bg-indigo-950/40 shadow-2xl shadow-indigo-500/20 scale-[1.01]"
+                  : "border-slate-300 bg-white/80 hover:border-indigo-400 hover:bg-indigo-50/30 shadow-xs dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-indigo-500/40 dark:hover:bg-slate-900/80"
               }`}
             >
               <input
@@ -275,14 +275,14 @@ export default function ResumeAnalyzerPage() {
 
               {!file ? (
                 <div className="flex flex-col items-center justify-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 mb-4 shadow-inner">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-600 dark:bg-indigo-500/10 dark:border-indigo-500/20 dark:text-indigo-400 mb-4 shadow-inner">
                     <UploadCloud className="h-8 w-8" />
                   </div>
-                  <h3 className="text-lg font-bold text-white">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                     Drag and drop your PDF resume here
                   </h3>
-                  <p className="mt-1 text-xs text-slate-400 max-w-sm">
-                    Accepted format: <strong className="text-slate-200">PDF only</strong> • Maximum file size: <strong className="text-slate-200">5 MB</strong>
+                  <p className="mt-1 text-xs text-slate-600 dark:text-slate-400 max-w-sm">
+                    Accepted format: <strong className="text-slate-900 dark:text-slate-200 font-semibold">PDF only</strong> • Maximum file size: <strong className="text-slate-900 dark:text-slate-200 font-semibold">5 MB</strong>
                   </p>
 
                   <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -299,16 +299,16 @@ export default function ResumeAnalyzerPage() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 mb-4">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 dark:bg-emerald-500/10 dark:border-emerald-500/20 dark:text-emerald-400 mb-4">
                     <FileCheck2 className="h-8 w-8" />
                   </div>
-                  <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                  <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
                     Resume Loaded
                   </span>
-                  <h3 className="mt-1 text-base font-bold text-white break-all max-w-md">
+                  <h3 className="mt-1 text-base font-bold text-slate-900 dark:text-white break-all max-w-md">
                     {file.name}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                     {formatFileSize(file.size)}
                   </p>
 
@@ -317,7 +317,7 @@ export default function ResumeAnalyzerPage() {
                       type="button"
                       id="replace-file-btn"
                       onClick={() => fileInputRef.current?.click()}
-                      className="rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 px-4 py-2 text-xs font-medium text-slate-200 transition-colors"
+                      className="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 shadow-2xs dark:border-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-700 dark:text-slate-200 transition-colors"
                     >
                       Replace File
                     </button>
@@ -325,7 +325,7 @@ export default function ResumeAnalyzerPage() {
                       type="button"
                       id="remove-file-btn"
                       onClick={handleRemoveFile}
-                      className="rounded-xl border border-rose-500/30 bg-rose-950/30 hover:bg-rose-900/40 px-4 py-2 text-xs font-medium text-rose-300 transition-colors"
+                      className="rounded-xl border border-rose-300 bg-rose-50 hover:bg-rose-100 px-4 py-2 text-xs font-semibold text-rose-700 dark:border-rose-500/30 dark:bg-rose-950/30 dark:hover:bg-rose-900/40 dark:text-rose-300 transition-colors"
                     >
                       Remove
                     </button>
@@ -335,11 +335,11 @@ export default function ResumeAnalyzerPage() {
             </div>
 
             {/* Privacy Notice Banner */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 backdrop-blur-md flex items-start gap-3 text-xs text-slate-400 leading-relaxed">
-              <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-2xs dark:border-slate-800 dark:bg-slate-900/40 backdrop-blur-md flex items-start gap-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-semibold text-slate-200">Privacy & In-Memory Processing: </span>
-                Your resume text is extracted in memory and sent securely to Google Gemini for one-time analysis. Uploaded files are <strong className="text-slate-300">never saved to disk or persistent databases</strong> by this prototype. Please avoid uploading sensitive identification (e.g. SSN or passport details) you do not wish to share with AI providers.
+                <span className="font-semibold text-slate-900 dark:text-slate-200">Privacy & In-Memory Processing: </span>
+                Your resume text is extracted in memory and sent securely to Google Gemini for one-time analysis. Uploaded files are <strong className="text-slate-900 dark:text-slate-300 font-semibold">never saved to disk or persistent databases</strong> by this prototype. Please avoid uploading sensitive identification (e.g. SSN or passport details) you do not wish to share with AI providers.
               </div>
             </div>
 
@@ -352,18 +352,18 @@ export default function ResumeAnalyzerPage() {
                 onClick={handleAnalyze}
                 className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl px-8 py-3.5 text-sm font-bold shadow-xl transition-all ${
                   !file || isLoading
-                    ? "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
+                    ? "bg-slate-100 text-slate-400 border border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 cursor-not-allowed"
                     : "bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98]"
                 }`}
               >
                 {isLoading ? (
                   <>
-                    <RefreshCw className="h-4 w-4 animate-spin text-indigo-300" />
+                    <RefreshCw className="h-4 w-4 animate-spin text-white" />
                     <span>{loadingStep || "Analyzing Resume..."}</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-4 w-4 text-indigo-300" />
+                    <Sparkles className="h-4 w-4 text-white" />
                     <span>Analyze Resume with AI</span>
                   </>
                 )}
@@ -374,20 +374,20 @@ export default function ResumeAnalyzerPage() {
           /* RESULTS SECTION */
           <div className="space-y-8 animate-in fade-in duration-500">
             {/* Results Header Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-6">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                     Analysis Completed
                   </span>
                 </div>
-                <h2 className="mt-1 text-2xl font-extrabold text-white">
+                <h2 className="mt-1 text-2xl font-extrabold text-slate-900 dark:text-white">
                   Resume Intelligence Report
                 </h2>
                 {result.documentMetadata?.filename && (
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Analyzed document: <span className="text-slate-200 font-mono">{result.documentMetadata.filename}</span>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                    Analyzed document: <span className="text-slate-900 dark:text-slate-200 font-mono font-medium">{result.documentMetadata.filename}</span>
                     {result.documentMetadata.pageCount && ` • ${result.documentMetadata.pageCount} page(s)`}
                   </p>
                 )}
@@ -398,9 +398,9 @@ export default function ResumeAnalyzerPage() {
                   type="button"
                   id="analyze-another-btn"
                   onClick={handleReset}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 hover:bg-slate-800 px-4 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-all"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900/80 dark:hover:bg-slate-800 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-all"
                 >
-                  <RefreshCw className="h-3.5 w-3.5 text-indigo-400" />
+                  <RefreshCw className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   <span>Analyze Another Resume</span>
                 </button>
                 <Link
@@ -414,27 +414,27 @@ export default function ResumeAnalyzerPage() {
             </div>
 
             {/* Profile Summary Card */}
-            <div className="rounded-2xl border border-indigo-500/30 bg-slate-900/60 p-6 backdrop-blur-md shadow-lg shadow-indigo-950/20">
+            <div className="rounded-2xl border border-indigo-200 bg-indigo-50/50 p-6 shadow-xs dark:border-indigo-500/30 dark:bg-slate-900/60 backdrop-blur-md dark:shadow-lg dark:shadow-indigo-950/20">
               <div className="flex items-center gap-2.5 mb-3">
-                <Briefcase className="h-5 w-5 text-indigo-400" />
-                <h3 className="text-base font-bold text-white">
+                <Briefcase className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
                   Executive Candidate Summary
                 </h3>
               </div>
-              <p className="text-sm leading-relaxed text-slate-300">
+              <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                 {result.summary}
               </p>
             </div>
 
             {/* Categorized Skills Grid */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-md">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900/60 backdrop-blur-md">
               <div className="flex items-center gap-2.5 mb-6">
-                <Layers className="h-5 w-5 text-violet-400" />
+                <Layers className="h-5 w-5 text-indigo-600 dark:text-violet-400" />
                 <div>
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
                     Demonstrated Competencies by Category
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-600 dark:text-slate-400">
                     Grouped by technical domain with verified evidence from supplied resume
                   </p>
                 </div>
@@ -444,23 +444,23 @@ export default function ResumeAnalyzerPage() {
                 {result.skills?.map((categoryGroup, idx) => (
                   <div
                     key={idx}
-                    className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 flex flex-col justify-between"
+                    className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 flex flex-col justify-between dark:border-slate-800 dark:bg-slate-950/60"
                   >
                     <div>
-                      <h4 className="text-xs font-bold text-indigo-300 uppercase tracking-wider mb-3">
+                      <h4 className="text-xs font-bold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider mb-3">
                         {categoryGroup.category}
                       </h4>
                       <div className="space-y-2">
                         {categoryGroup.items?.map((item, itemIdx) => (
                           <div
                             key={itemIdx}
-                            className="rounded-lg bg-slate-900/80 p-2 border border-slate-800/80 text-xs"
+                            className="rounded-lg bg-white p-2.5 border border-slate-200 shadow-2xs text-xs dark:bg-slate-900/80 dark:border-slate-800/80"
                           >
-                            <span className="font-semibold text-white">
+                            <span className="font-semibold text-slate-900 dark:text-white">
                               {item.name}
                             </span>
                             {item.evidence && (
-                              <p className="text-[11px] text-slate-400 mt-1 leading-snug">
+                              <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 leading-snug">
                                 {item.evidence}
                               </p>
                             )}
@@ -476,17 +476,17 @@ export default function ResumeAnalyzerPage() {
             {/* Experience Highlights & Project Highlights Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Experience Highlights */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-md flex flex-col">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900/60 backdrop-blur-md flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
-                  <CheckCircle2 className="h-5 w-5 text-indigo-400" />
-                  <h3 className="text-base font-bold text-white">
+                  <CheckCircle2 className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
                     Demonstrated Experience & Impact
                   </h3>
                 </div>
-                <ul className="space-y-3 text-xs text-slate-300 leading-relaxed flex-1">
+                <ul className="space-y-3 text-xs text-slate-700 dark:text-slate-300 leading-relaxed flex-1">
                   {result.experienceHighlights?.map((exp, idx) => (
                     <li key={idx} className="flex items-start gap-2.5">
-                      <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400 mt-1.5 shrink-0" />
                       <span>{exp}</span>
                     </li>
                   ))}
@@ -494,10 +494,10 @@ export default function ResumeAnalyzerPage() {
               </div>
 
               {/* Project Highlights */}
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-md flex flex-col">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900/60 backdrop-blur-md flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
-                  <Award className="h-5 w-5 text-violet-400" />
-                  <h3 className="text-base font-bold text-white">
+                  <Award className="h-5 w-5 text-violet-600 dark:text-violet-400" />
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
                     Key Projects & Technical Initiatives
                   </h3>
                 </div>
@@ -505,12 +505,12 @@ export default function ResumeAnalyzerPage() {
                   {result.projectHighlights?.map((proj, idx) => (
                     <div
                       key={idx}
-                      className="rounded-xl bg-slate-950/60 p-3.5 border border-slate-800 text-xs"
+                      className="rounded-xl bg-slate-50/80 p-3.5 border border-slate-200 dark:bg-slate-950/60 dark:border-slate-800 text-xs"
                     >
-                      <h4 className="font-bold text-white text-sm">
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm">
                         {proj.title}
                       </h4>
-                      <p className="text-slate-300 mt-1 leading-relaxed">
+                      <p className="text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">
                         {proj.description}
                       </p>
                       {proj.technologies?.length > 0 && (
@@ -518,7 +518,7 @@ export default function ResumeAnalyzerPage() {
                           {proj.technologies.map((tech, tIdx) => (
                             <span
                               key={tIdx}
-                              className="rounded-md bg-indigo-950/70 border border-indigo-800/60 px-2 py-0.5 text-[10px] font-mono text-indigo-300"
+                              className="rounded-md bg-indigo-50 border border-indigo-200 text-indigo-700 px-2 py-0.5 text-[10px] font-mono dark:bg-indigo-950/70 dark:border-indigo-800/60 dark:text-indigo-300"
                             >
                               {tech}
                             </span>
@@ -534,17 +534,17 @@ export default function ResumeAnalyzerPage() {
             {/* Strengths & Improvements Comparison */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Strengths */}
-              <div className="rounded-2xl border border-emerald-500/20 bg-emerald-950/10 p-6 backdrop-blur-md">
-                <div className="flex items-center gap-2 mb-4 text-emerald-400">
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-xs dark:border-emerald-500/20 dark:bg-emerald-950/10 backdrop-blur-md">
+                <div className="flex items-center gap-2 mb-4 text-emerald-700 dark:text-emerald-400">
                   <TrendingUp className="h-5 w-5" />
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-bold text-emerald-900 dark:text-white">
                     Evidence-Based Strengths
                   </h3>
                 </div>
-                <ul className="space-y-2.5 text-xs text-slate-300">
+                <ul className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
                   {result.strengths?.map((str, idx) => (
                     <li key={idx} className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span>{str}</span>
                     </li>
                   ))}
@@ -552,17 +552,17 @@ export default function ResumeAnalyzerPage() {
               </div>
 
               {/* Practical Improvements */}
-              <div className="rounded-2xl border border-amber-500/20 bg-amber-950/10 p-6 backdrop-blur-md">
-                <div className="flex items-center gap-2 mb-4 text-amber-400">
+              <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-6 shadow-xs dark:border-amber-500/20 dark:bg-amber-950/10 backdrop-blur-md">
+                <div className="flex items-center gap-2 mb-4 text-amber-700 dark:text-amber-400">
                   <AlertTriangle className="h-5 w-5" />
-                  <h3 className="text-base font-bold text-white">
+                  <h3 className="text-base font-bold text-amber-900 dark:text-white">
                     High-Priority Improvement Areas
                   </h3>
                 </div>
-                <ul className="space-y-2.5 text-xs text-slate-300">
+                <ul className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
                   {result.improvements?.map((imp, idx) => (
                     <li key={idx} className="flex items-start gap-2">
-                      <span className="h-2 w-2 rounded-full bg-amber-400 mt-1 shrink-0" />
+                      <span className="h-2 w-2 rounded-full bg-amber-500 dark:bg-amber-400 mt-1 shrink-0" />
                       <span>{imp}</span>
                     </li>
                   ))}
@@ -572,14 +572,14 @@ export default function ResumeAnalyzerPage() {
 
             {/* Bullet Point Suggestions */}
             {result.bulletSuggestions?.length > 0 && (
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-md">
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs dark:border-slate-800 dark:bg-slate-900/60 backdrop-blur-md">
                 <div className="flex items-center gap-2 mb-6">
-                  <Sparkles className="h-5 w-5 text-indigo-400" />
+                  <Sparkles className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                   <div>
-                    <h3 className="text-base font-bold text-white">
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
                       Clearer, Stronger Bullet-Point Rewrites
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-600 dark:text-slate-400">
                       Suggested rewrites based strictly on your demonstrated experience, structured with strong action verbs and quantified impact.
                     </p>
                   </div>
@@ -589,37 +589,37 @@ export default function ResumeAnalyzerPage() {
                   {result.bulletSuggestions.map((bullet, idx) => (
                     <div
                       key={idx}
-                      className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-all hover:border-indigo-500/30"
+                      className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 transition-all hover:border-indigo-300 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-indigo-500/30"
                     >
                       {bullet.original && (
                         <div className="mb-2">
-                          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                             Current demonstrated responsibility
                           </span>
-                          <p className="text-xs text-slate-400 italic mt-0.5">
+                          <p className="text-xs text-slate-600 dark:text-slate-400 italic mt-0.5">
                             &ldquo;{bullet.original}&rdquo;
                           </p>
                         </div>
                       )}
 
-                      <div className="rounded-lg bg-indigo-950/30 border border-indigo-500/20 p-3 mt-2">
+                      <div className="rounded-lg bg-indigo-50 border border-indigo-200 p-3 mt-2 dark:bg-indigo-950/30 dark:border-indigo-500/20">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
                               Suggested Action Rewrite
                             </span>
-                            <p className="text-xs font-medium text-white mt-1 leading-relaxed">
+                            <p className="text-xs font-semibold text-slate-900 dark:text-white mt-1 leading-relaxed">
                               {bullet.suggested}
                             </p>
                           </div>
                           <button
                             type="button"
                             onClick={() => copyToClipboard(bullet.suggested, idx)}
-                            className="p-1.5 rounded-lg bg-indigo-900/40 hover:bg-indigo-800 text-indigo-300 hover:text-white transition-colors shrink-0"
+                            className="p-1.5 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 dark:bg-indigo-900/40 dark:hover:bg-indigo-800 dark:text-indigo-300 dark:hover:text-white transition-colors shrink-0"
                             title="Copy rewrite to clipboard"
                           >
                             {copiedIndex === idx ? (
-                              <Check className="h-3.5 w-3.5 text-emerald-400" />
+                              <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                             ) : (
                               <Copy className="h-3.5 w-3.5" />
                             )}
@@ -628,8 +628,8 @@ export default function ResumeAnalyzerPage() {
                       </div>
 
                       {bullet.rationale && (
-                        <p className="text-[11px] text-slate-400 mt-2">
-                          <span className="font-semibold text-slate-300">Rationale: </span>
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-2">
+                          <span className="font-semibold text-slate-800 dark:text-slate-300">Rationale: </span>
                           {bullet.rationale}
                         </p>
                       )}
@@ -640,11 +640,11 @@ export default function ResumeAnalyzerPage() {
             )}
 
             {/* Bottom Actions */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-800">
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 px-5 py-2.5 text-xs font-semibold text-white transition-all"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-2.5 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800/80 dark:hover:bg-slate-700 dark:text-white shadow-2xs transition-all"
               >
                 <RefreshCw className="h-4 w-4" />
                 <span>Upload Another Resume</span>

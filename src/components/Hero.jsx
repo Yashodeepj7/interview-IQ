@@ -40,14 +40,16 @@ export default function Hero({ onOpenMockModal }) {
         {/* Top Centered Hero Copy */}
         <div className="mx-auto max-w-4xl text-center">
           {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50/80 px-4 py-1.5 text-xs font-semibold text-indigo-700 shadow-xs backdrop-blur-sm mb-8 dark:border-indigo-500/30 dark:bg-gradient-to-r dark:from-indigo-500/10 dark:to-violet-500/8 dark:text-indigo-300 dark:shadow-indigo-500/10">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400">
-              <span className="animate-ping absolute inline-flex h-1.5 w-1.5 rounded-full bg-indigo-600 dark:bg-indigo-400 opacity-75" />
+          <div className="badge-hero mb-8">
+            <span className="relative flex h-2 w-2 rounded-full bg-indigo-600 dark:bg-indigo-400">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-500 opacity-75" />
             </span>
-            <Sparkles className="h-3 w-3 text-indigo-600 dark:text-indigo-400" />
-            <span>Next-Generation AI Interview Platform</span>
-            <span className="text-slate-400 dark:text-slate-500">•</span>
-            <span className="text-violet-700 dark:text-violet-300 font-bold">Powered by Gemini</span>
+            <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+            <span className="font-semibold text-slate-800 dark:text-indigo-100">
+              Next-Generation AI Interview Platform
+            </span>
+            <span className="text-slate-400 dark:text-indigo-300/60">•</span>
+            <span className="text-indigo-700 dark:text-violet-300 font-bold">Powered by Gemini</span>
           </div>
 
           {/* Heading */}

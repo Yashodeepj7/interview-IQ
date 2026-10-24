@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function InterviewSessionPage() {
   return (
-    <div className="relative min-h-screen bg-[#090d16] text-slate-100 flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="relative min-h-screen bg-[var(--bg-base)] text-[var(--foreground)] flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
       <Navbar />
       <main className="flex-1">
         <InterviewSessionClient />

@@ -131,11 +131,11 @@ export default function MockInterviewSetup() {
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <Link
           href="/"
-          className="text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+          className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-colors"
         >
           ← Return to Dashboard
         </Link>
-        <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 border border-indigo-500/20">
+        <span className="rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/20 px-3 py-1 text-xs font-semibold">
           Step 3: AI Mock Interview Engine
         </span>
       </div>
@@ -160,8 +160,8 @@ export default function MockInterviewSetup() {
       >
         {/* Field 1: Target Role */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-            <Briefcase className="h-4 w-4 text-indigo-400" />
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+            <Briefcase className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             <span>Target Role</span>
           </label>
 
@@ -176,8 +176,8 @@ export default function MockInterviewSetup() {
                 }}
                 className={`rounded-xl px-3 py-2.5 text-xs font-medium border text-left transition-all ${
                   !useCustomRole && role === preset
-                    ? "border-indigo-500 bg-indigo-600/20 text-white font-semibold shadow-sm"
-                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-700 font-semibold shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                    : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
                 }`}
               >
                 {preset}
@@ -189,7 +189,7 @@ export default function MockInterviewSetup() {
             <button
               type="button"
               onClick={() => setUseCustomRole(!useCustomRole)}
-              className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
+              className="text-xs text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold"
             >
               {useCustomRole ? "Use preset roles" : "+ Or specify a custom role"}
             </button>
@@ -202,10 +202,10 @@ export default function MockInterviewSetup() {
                 value={customRole}
                 onChange={(e) => setCustomRole(e.target.value)}
                 placeholder="e.g. iOS Engineer, Cloud Solutions Architect, Product Manager..."
-                className="w-full rounded-xl border border-slate-800 bg-slate-950/80 px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 transition-colors"
+                className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500/50 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-500 transition-colors"
               />
               {customRole.trim().length > 0 && customRole.trim().length < 2 && (
-                <p className="mt-1 text-xs text-amber-400">Role must be at least 2 characters.</p>
+                <p className="mt-1 text-xs text-amber-500">Role must be at least 2 characters.</p>
               )}
             </div>
           )}
@@ -213,8 +213,8 @@ export default function MockInterviewSetup() {
 
         {/* Field 2: Experience Level */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-            <Gauge className="h-4 w-4 text-indigo-400" />
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+            <Gauge className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             <span>Experience Level</span>
           </label>
 
@@ -226,14 +226,14 @@ export default function MockInterviewSetup() {
                 onClick={() => setExperience(opt.value)}
                 className={`rounded-2xl p-4 border text-left transition-all ${
                   experience === opt.value
-                    ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm ring-1 ring-indigo-500/30"
-                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-900 shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                    : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700"
                 }`}
               >
-                <div className="font-semibold text-sm text-slate-200">
+                <div className="font-semibold text-sm text-slate-900 dark:text-slate-200">
                   {opt.label}
                 </div>
-                <div className="text-xs text-slate-400 mt-1">{opt.desc}</div>
+                <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">{opt.desc}</div>
               </button>
             ))}
           </div>
@@ -241,8 +241,8 @@ export default function MockInterviewSetup() {
 
         {/* Field 3: Interview Type */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-            <Layers className="h-4 w-4 text-indigo-400" />
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+            <Layers className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             <span>Interview Format</span>
           </label>
 
@@ -254,14 +254,14 @@ export default function MockInterviewSetup() {
                 onClick={() => setType(opt.value)}
                 className={`rounded-2xl p-4 border text-left transition-all ${
                   type === opt.value
-                    ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm ring-1 ring-indigo-500/30"
-                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                    ? "border-indigo-600 bg-indigo-50 text-indigo-900 shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                    : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700"
                 }`}
               >
-                <div className="font-semibold text-sm text-slate-200">
+                <div className="font-semibold text-sm text-slate-900 dark:text-slate-200">
                   {opt.label}
                 </div>
-                <div className="text-xs text-slate-400 mt-1">{opt.desc}</div>
+                <div className="text-xs text-slate-600 dark:text-slate-400 mt-1">{opt.desc}</div>
               </button>
             ))}
           </div>
@@ -271,8 +271,8 @@ export default function MockInterviewSetup() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Question Count */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-              <Clock className="h-4 w-4 text-indigo-400" />
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+              <Clock className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               <span>Question Count</span>
             </label>
 
@@ -284,12 +284,12 @@ export default function MockInterviewSetup() {
                   onClick={() => setQuestionCount(opt.value)}
                   className={`rounded-xl p-3 border text-center transition-all ${
                     questionCount === opt.value
-                      ? "border-indigo-500 bg-indigo-600/20 text-white font-semibold"
-                      : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                      ? "border-indigo-600 bg-indigo-50 text-indigo-900 font-semibold shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                      : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700"
                   }`}
                 >
-                  <div className="text-sm font-bold text-white">{opt.value}</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">{opt.time}</div>
+                  <div className="text-sm font-bold text-slate-900 dark:text-white">{opt.value}</div>
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">{opt.time}</div>
                 </button>
               ))}
             </div>
@@ -297,8 +297,8 @@ export default function MockInterviewSetup() {
 
           {/* Difficulty */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-              <Sliders className="h-4 w-4 text-indigo-400" />
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+              <Sliders className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               <span>Difficulty</span>
             </label>
 
@@ -310,12 +310,12 @@ export default function MockInterviewSetup() {
                   onClick={() => setDifficulty(opt.value)}
                   className={`rounded-xl p-3 border text-center transition-all ${
                     difficulty === opt.value
-                      ? "border-indigo-500 bg-indigo-600/20 text-white font-bold"
-                      : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700"
+                      ? "border-indigo-600 bg-indigo-50 text-indigo-900 font-bold shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                      : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700"
                   }`}
                 >
                   <div className="text-sm font-semibold">{opt.label}</div>
-                  <div className="text-[10px] text-slate-500 mt-0.5">Tier</div>
+                  <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Tier</div>
                 </button>
               ))}
             </div>
@@ -324,8 +324,8 @@ export default function MockInterviewSetup() {
 
         {/* Field 6: Response Mode Preference */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-2">
-            <Mic className="h-4 w-4 text-indigo-400" />
+          <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+            <Mic className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
             <span>Response Mode Preference</span>
           </label>
 
@@ -335,20 +335,20 @@ export default function MockInterviewSetup() {
               onClick={() => setInputMode("typed")}
               className={`rounded-2xl p-4 border text-left transition-all ${
                 inputMode === "typed"
-                  ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm"
-                  : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                  ? "border-indigo-600 bg-indigo-50/90 text-indigo-950 shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                  : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
               }`}
             >
               <div className="flex items-center gap-2.5 mb-1.5">
-                <Keyboard className={`h-4 w-4 ${inputMode === "typed" ? "text-indigo-400" : "text-slate-500"}`} />
-                <span className="font-bold text-sm text-slate-100">Typed Mode</span>
+                <Keyboard className={`h-4 w-4 ${inputMode === "typed" ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500"}`} />
+                <span className="font-bold text-sm text-slate-900 dark:text-slate-100">Typed Mode</span>
                 {inputMode === "typed" && (
-                  <span className="ml-auto rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] font-semibold text-indigo-300">
+                  <span className="ml-auto rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
                     Selected
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 Standard keyboard input with live character count and autosave.
               </p>
             </button>
@@ -358,25 +358,25 @@ export default function MockInterviewSetup() {
               onClick={() => setInputMode("voice")}
               className={`rounded-2xl p-4 border text-left transition-all ${
                 inputMode === "voice"
-                  ? "border-indigo-500 bg-indigo-600/20 text-white shadow-sm"
-                  : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                  ? "border-indigo-600 bg-indigo-50/90 text-indigo-950 shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
+                  : "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200"
               }`}
             >
               <div className="flex items-center gap-2.5 mb-1.5">
-                <Mic className={`h-4 w-4 ${inputMode === "voice" ? "text-indigo-400" : "text-slate-500"}`} />
-                <span className="font-bold text-sm text-slate-100">Voice Mode</span>
+                <Mic className={`h-4 w-4 ${inputMode === "voice" ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500"}`} />
+                <span className="font-bold text-sm text-slate-900 dark:text-slate-100">Voice Mode</span>
                 {inputMode === "voice" && (
-                  <span className="ml-auto rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] font-semibold text-indigo-300">
+                  <span className="ml-auto rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
                     Selected
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 Dictate answers with Web Speech recognition and audio read-aloud.
               </p>
             </button>
           </div>
-          <p className="text-[11px] text-slate-500 mt-2">
+          <p className="text-[11px] text-slate-600 dark:text-slate-500 mt-2">
             You can also switch freely between typed and voice input at any time during your session.
           </p>
         </div>
@@ -386,12 +386,12 @@ export default function MockInterviewSetup() {
           <div className="flex items-center justify-between mb-2">
             <label
               htmlFor="interview-topics-textarea"
-              className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2"
+              className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2"
             >
-              <FileText className="h-4 w-4 text-indigo-400" />
+              <FileText className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
               <span>Specific Topics or Job Description (Optional)</span>
             </label>
-            <span className="text-xs text-slate-500 font-mono">
+            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
               {topics.length} / 1500
             </span>
           </div>
@@ -402,36 +402,36 @@ export default function MockInterviewSetup() {
             maxLength={1500}
             onChange={(e) => setTopics(e.target.value)}
             placeholder="Paste excerpts from your target job description, or list key concepts you want to practice (e.g. React hooks, microservices, Kafka, Redis caching, executive presentation)..."
-            className="w-full rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 resize-y transition-colors font-sans"
+            className="w-full rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500/50 resize-y transition-colors font-sans dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-500"
           />
         </div>
 
         {/* Error Notification Alert */}
         {error && (
-          <div className="rounded-2xl border border-rose-500/30 bg-rose-950/20 p-5 text-xs text-rose-200">
+          <div className="rounded-2xl border border-rose-500/30 bg-rose-50 dark:bg-rose-950/20 p-5 text-xs text-rose-900 dark:text-rose-200">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 text-rose-400 shrink-0 mt-0.5" />
+              <AlertTriangle className="h-5 w-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
               <div className="space-y-2 w-full">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-sm text-rose-300">
+                  <h4 className="font-bold text-sm text-rose-800 dark:text-rose-300">
                     {error.setupRequired
                       ? "Configuration Required: API Key Missing"
                       : error.error || "Generation Failed"}
                   </h4>
                   {error.setupRequired && (
-                    <span className="rounded-full bg-rose-500/20 px-2 py-0.5 text-[10px] font-semibold text-rose-300">
+                    <span className="rounded-full bg-rose-100 dark:bg-rose-500/20 px-2 py-0.5 text-[10px] font-semibold text-rose-700 dark:text-rose-300">
                       HTTP 503
                     </span>
                   )}
                 </div>
 
                 {error.instructions && (
-                  <div className="rounded-xl bg-black/40 p-3.5 border border-rose-900/40 text-slate-300">
-                    <p className="font-semibold text-slate-200 mb-1">
+                  <div className="rounded-xl bg-white/70 dark:bg-black/40 p-3.5 border border-rose-200 dark:border-rose-900/40 text-slate-800 dark:text-slate-300">
+                    <p className="font-semibold text-slate-900 dark:text-slate-200 mb-1">
                       Setup Instructions:
                     </p>
-                    <p className="text-slate-300 mb-2">{error.instructions}</p>
-                    <div className="bg-slate-950 p-2.5 rounded-lg font-mono text-[11px] text-indigo-300 border border-slate-800">
+                    <p className="text-slate-700 dark:text-slate-300 mb-2">{error.instructions}</p>
+                    <div className="bg-slate-100 dark:bg-slate-950 p-2.5 rounded-lg font-mono text-[11px] text-indigo-700 dark:text-indigo-300 border border-slate-300 dark:border-slate-800">
                       # D:/Project/interview-iq/.env.local<br />
                       GEMINI_API_KEY=your_gemini_api_key_here<br />
                       GEMINI_MODEL=gemini-3.8-flash
@@ -440,7 +440,7 @@ export default function MockInterviewSetup() {
                 )}
 
                 {error.details && (
-                  <p className="text-rose-300/80 leading-relaxed font-mono text-[11px]">
+                  <p className="text-rose-700 dark:text-rose-300/80 leading-relaxed font-mono text-[11px]">
                     Details: {error.details}
                   </p>
                 )}
@@ -450,9 +450,9 @@ export default function MockInterviewSetup() {
         )}
 
         {/* Submit Action */}
-        <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-xs text-slate-400 flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             <span>
               Configured: {questionCount} questions • {difficulty} • {type} • {inputMode === "voice" ? "Voice Mode" : "Typed Mode"}
             </span>

@@ -557,14 +557,14 @@ export default function InterviewSessionClient() {
       return (
         <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
           {/* Persistence Action Banner */}
-          <div className="mb-6 rounded-2xl border border-indigo-500/30 bg-slate-900/90 p-4 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 shadow-lg shadow-indigo-950/20">
+          <div className="mb-6 rounded-2xl border border-indigo-200 bg-indigo-50/80 p-4 shadow-xs dark:border-indigo-500/30 dark:bg-slate-900/90 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 dark:shadow-lg dark:shadow-indigo-950/20">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 border border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20">
                 <Database className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-white">Interview History & Persistence</p>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-xs font-semibold text-slate-900 dark:text-white">Interview History & Persistence</p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400">
                   {savedInterviewId
                     ? "This evaluation report is securely saved to your MongoDB Atlas dashboard."
                     : authSession?.user
@@ -578,9 +578,9 @@ export default function InterviewSessionClient() {
               {savedInterviewId ? (
                 <Link
                   href={`/dashboard/interviews/${savedInterviewId}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-1.5 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-1.5 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/40 transition-colors"
                 >
-                  <BookmarkCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  <BookmarkCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>View in Dashboard</span>
                 </Link>
               ) : authSession?.user ? (
@@ -605,7 +605,7 @@ export default function InterviewSessionClient() {
               ) : (
                 <Link
                   href="/login"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-950/50 px-3.5 py-1.5 text-xs font-semibold text-indigo-300 hover:bg-indigo-900/60 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-1.5 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 dark:border-indigo-500/40 dark:bg-indigo-950/50 dark:text-indigo-300 dark:hover:bg-indigo-900/60 dark:hover:text-white transition-colors"
                 >
                   <span>Sign In to Save</span>
                   <ArrowRight className="h-3 w-3" />
@@ -615,12 +615,12 @@ export default function InterviewSessionClient() {
           </div>
 
           {saveError && (
-            <div className="mb-6 rounded-xl border border-rose-500/40 bg-rose-950/30 p-3 text-xs text-rose-300 flex items-center justify-between">
+            <div className="mb-6 rounded-xl border border-rose-300 bg-rose-50 p-3 text-xs text-rose-800 dark:border-rose-500/40 dark:bg-rose-950/30 dark:text-rose-300 flex items-center justify-between">
               <span>{saveError}</span>
               <button
                 type="button"
                 onClick={handleSaveInterview}
-                className="underline hover:text-white font-semibold ml-2"
+                className="underline hover:text-rose-950 dark:hover:text-white font-semibold ml-2"
               >
                 Retry
               </button>
@@ -639,18 +639,18 @@ export default function InterviewSessionClient() {
     // 2. Choice or Transcript Mode
     return (
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-emerald-500/30 bg-slate-900/80 p-6 sm:p-10 backdrop-blur-xl shadow-2xl shadow-emerald-950/20">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-sm dark:border-emerald-500/30 dark:bg-slate-900/80 backdrop-blur-xl dark:shadow-2xl dark:shadow-emerald-950/20">
           {/* Header Banner */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-6 mb-8">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6 mb-8">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30">
                 <CheckCircle2 className="h-6 w-6" />
               </div>
               <div>
-                <h1 className="text-2xl font-extrabold text-white sm:text-3xl">
+                <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white sm:text-3xl">
                   Interview Session Complete
                 </h1>
-                <p className="text-xs text-slate-400 mt-0.5">
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                   Your interview session has concluded. Choose how you would like to proceed.
                 </p>
               </div>
@@ -661,9 +661,9 @@ export default function InterviewSessionClient() {
                 <button
                   type="button"
                   onClick={() => setCompletionViewMode("report")}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-950/40 px-3.5 py-2 text-xs font-semibold text-indigo-300 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:text-white transition-colors"
                 >
-                  <Award className="h-3.5 w-3.5 text-indigo-400" />
+                  <Award className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   <span>View AI Report</span>
                 </button>
               )}
@@ -671,9 +671,9 @@ export default function InterviewSessionClient() {
               {savedInterviewId ? (
                 <Link
                   href={`/dashboard/interviews/${savedInterviewId}`}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40 transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 px-3.5 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 dark:border-emerald-500/30 dark:bg-emerald-950/40 dark:text-emerald-300 dark:hover:bg-emerald-900/40 transition-colors"
                 >
-                  <BookmarkCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  <BookmarkCheck className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>Saved to Dashboard</span>
                 </Link>
               ) : authSession?.user ? (
@@ -681,7 +681,7 @@ export default function InterviewSessionClient() {
                   type="button"
                   onClick={handleSaveInterview}
                   disabled={isSaving}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-950/50 px-3.5 py-2 text-xs font-semibold text-indigo-300 hover:bg-indigo-900/60 hover:text-white transition-colors disabled:opacity-50"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 dark:border-indigo-500/40 dark:bg-indigo-950/50 dark:text-indigo-300 dark:hover:bg-indigo-900/60 dark:hover:text-white transition-colors disabled:opacity-50"
                 >
                   {isSaving ? (
                     <>
@@ -690,7 +690,7 @@ export default function InterviewSessionClient() {
                     </>
                   ) : (
                     <>
-                      <Bookmark className="h-3.5 w-3.5 text-indigo-400" />
+                      <Bookmark className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                       <span>Save to History</span>
                     </>
                   )}
@@ -700,16 +700,16 @@ export default function InterviewSessionClient() {
               <button
                 type="button"
                 onClick={handleCopyTranscript}
-                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors"
               >
                 {transcriptCopied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-emerald-400" />
+                    <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                     <span>Copied!</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5 text-slate-400" />
+                    <Copy className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
                     <span>Copy Transcript</span>
                   </>
                 )}
@@ -726,72 +726,72 @@ export default function InterviewSessionClient() {
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-            <div className="rounded-2xl bg-slate-950/70 p-4 border border-slate-800">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+            <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-950/70 dark:border-slate-800 shadow-2xs">
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-500 font-bold">
                 Answered
               </div>
-              <div className="text-xl font-bold text-white mt-1">
+              <div className="text-xl font-bold text-slate-900 dark:text-white mt-1">
                 {answeredCount} / {totalQuestions}
               </div>
             </div>
 
-            <div className="rounded-2xl bg-slate-950/70 p-4 border border-slate-800">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+            <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-950/70 dark:border-slate-800 shadow-2xs">
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-500 font-bold">
                 Role
               </div>
-              <div className="text-sm font-bold text-indigo-300 mt-1 truncate">
+              <div className="text-sm font-bold text-indigo-700 dark:text-indigo-300 mt-1 truncate">
                 {sessionData.settings.role}
               </div>
             </div>
 
-            <div className="rounded-2xl bg-slate-950/70 p-4 border border-slate-800">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+            <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-950/70 dark:border-slate-800 shadow-2xs">
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-500 font-bold">
                 Format
               </div>
-              <div className="text-sm font-bold text-slate-200 mt-1">
+              <div className="text-sm font-bold text-slate-800 dark:text-slate-200 mt-1">
                 {sessionData.settings.type}
               </div>
             </div>
 
-            <div className="rounded-2xl bg-slate-950/70 p-4 border border-slate-800">
-              <div className="text-[11px] uppercase tracking-wider text-slate-500 font-semibold">
+            <div className="rounded-2xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-950/70 dark:border-slate-800 shadow-2xs">
+              <div className="text-[11px] uppercase tracking-wider text-slate-600 dark:text-slate-500 font-bold">
                 Difficulty
               </div>
-              <div className="text-sm font-bold text-violet-300 mt-1">
+              <div className="text-sm font-bold text-violet-700 dark:text-violet-300 mt-1">
                 {sessionData.settings.difficulty}
               </div>
             </div>
           </div>
 
           {/* EVALUATION ACTION CARD / HUB */}
-          <div className="mb-8 rounded-3xl border border-indigo-500/40 bg-gradient-to-br from-indigo-950/40 via-slate-950/70 to-slate-900/60 p-6 sm:p-8 relative overflow-hidden shadow-xl shadow-indigo-950/30">
+          <div className="mb-8 rounded-3xl border border-indigo-200 bg-gradient-to-br from-indigo-50/90 via-white to-violet-50/80 p-6 sm:p-8 relative overflow-hidden shadow-xs dark:border-indigo-500/40 dark:bg-gradient-to-br dark:from-indigo-950/40 dark:via-slate-950/70 dark:to-slate-900/60 dark:shadow-xl dark:shadow-indigo-950/30">
             <div className="absolute top-0 right-0 h-40 w-40 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
               <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-600/30 text-indigo-400 border border-indigo-500/30">
+                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 border border-indigo-200 dark:bg-indigo-600/30 dark:text-indigo-400 dark:border-indigo-500/30">
                   <Sparkles className="h-4 w-4" />
                 </span>
-                <h2 className="text-lg font-bold text-white">
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                   AI Answer Evaluation & Personalized Feedback
                 </h2>
               </div>
-              <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold text-indigo-300 border border-indigo-500/20">
+              <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 border border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/20">
                 Powered by Gemini
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
               Get an objective assessment of your answers based on real-world hiring rubrics.
               Receive an overall competency score (0–100), STAR breakdown for behavioral answers,
               technical depth analysis, and illustrative model answers for comparison.
             </p>
 
             {/* Privacy & Transparency Notice */}
-            <div className="mb-6 rounded-xl bg-slate-950/80 p-3.5 border border-slate-800 text-xs text-slate-400 flex items-start gap-2.5">
-              <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="mb-6 rounded-xl bg-white/80 p-3.5 border border-slate-200 text-xs text-slate-600 dark:bg-slate-950/80 dark:border-slate-800 dark:text-slate-400 flex items-start gap-2.5">
+              <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <p className="leading-relaxed">
-                <strong className="text-slate-300">Privacy & Data Handling: </strong>
+                <strong className="text-slate-900 dark:text-slate-300 font-semibold">Privacy & Data Handling: </strong>
                 Submitting your answers to the Gemini API is required to generate this evaluation.
                 Evaluation occurs on-demand. When saved, interview transcripts and rubrics are persisted to your MongoDB Atlas history and remain accessible until explicitly deleted from your personal dashboard.
               </p>
@@ -874,16 +874,16 @@ export default function InterviewSessionClient() {
                 <button
                   type="button"
                   onClick={() => setCompletionViewMode("transcript")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950 px-5 py-3 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors"
                 >
-                  <FileText className="h-4 w-4 text-slate-400" />
+                  <FileText className="h-4 w-4 text-slate-500 dark:text-slate-400" />
                   <span>Review Raw Transcript Only</span>
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => setCompletionViewMode("choice")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950 px-5 py-3 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors"
                 >
                   <span>Return to Completion Hub</span>
                 </button>
@@ -893,7 +893,7 @@ export default function InterviewSessionClient() {
                 <button
                   type="button"
                   onClick={() => setIsCompleted(false)}
-                  className="inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-950/30 px-5 py-3 text-xs font-semibold text-indigo-300 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-5 py-3 text-xs font-semibold text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-950/30 dark:text-indigo-300 dark:hover:text-white transition-colors"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   <span>Return to Interview to Answer</span>
@@ -903,11 +903,11 @@ export default function InterviewSessionClient() {
 
             {/* Evaluation Loading State Indicator */}
             {isEvaluating && (
-              <div className="mt-5 rounded-2xl bg-indigo-950/30 border border-indigo-500/20 p-4 text-xs text-indigo-200 flex items-center gap-3">
-                <Loader2 className="h-5 w-5 animate-spin text-indigo-400 shrink-0" />
+              <div className="mt-5 rounded-2xl bg-indigo-50 border border-indigo-200 p-4 text-xs text-indigo-900 dark:bg-indigo-950/30 dark:border-indigo-500/20 dark:text-indigo-200 flex items-center gap-3">
+                <Loader2 className="h-5 w-5 animate-spin text-indigo-600 dark:text-indigo-400 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Analyzing Your Submissions...</p>
-                  <p className="text-slate-300 text-[11px] mt-0.5">
+                  <p className="font-semibold text-slate-900 dark:text-white">Analyzing Your Submissions...</p>
+                  <p className="text-slate-600 dark:text-slate-300 text-[11px] mt-0.5">
                     Assessing technical accuracy, clarity, depth, and STAR behavioral structure against professional benchmarks.
                   </p>
                 </div>
@@ -918,12 +918,12 @@ export default function InterviewSessionClient() {
           {/* Transcript Log (Rendered when transcript mode is chosen or viewed) */}
           {completionViewMode === "transcript" && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h2 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-indigo-400" />
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h2 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
                   <span>Session Question & Answer Log</span>
                 </h2>
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-slate-600 dark:text-slate-500 font-medium">
                   {questions.length} Questions Recorded
                 </span>
               </div>
@@ -933,38 +933,38 @@ export default function InterviewSessionClient() {
                 return (
                   <div
                     key={q.id}
-                    className="rounded-2xl border border-slate-800/90 bg-slate-950/80 p-5 sm:p-6"
+                    className="rounded-2xl border border-slate-200 bg-white shadow-2xs p-5 sm:p-6 dark:border-slate-800/90 dark:bg-slate-950/80"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-3 mb-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-3 mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-600/30 text-[11px] font-bold text-indigo-300">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-50 text-[11px] font-bold text-indigo-700 border border-indigo-200 dark:bg-indigo-600/30 dark:text-indigo-300 dark:border-indigo-500/30">
                           Q{index + 1}
                         </span>
-                        <span className="text-xs font-semibold text-indigo-300">
+                        <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-300">
                           {q.category}
                         </span>
                       </div>
-                      <span className="text-[11px] text-slate-500 font-mono">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
                         Expected ~{q.expectedDurationSeconds}s
                       </span>
                     </div>
 
-                    <p className="text-sm font-medium text-slate-100 leading-relaxed mb-4">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 leading-relaxed mb-4">
                       {q.text}
                     </p>
 
-                    <div className="rounded-xl bg-slate-900/90 p-4 border border-slate-800 text-xs">
-                      <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5 flex items-center gap-1.5">
+                    <div className="rounded-xl bg-slate-50 p-4 border border-slate-200 dark:bg-slate-900/90 dark:border-slate-800 text-xs">
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5 flex items-center gap-1.5">
                         <CornerDownRight className="h-3 w-3 text-slate-500" />
                         <span>Your Response:</span>
                       </div>
 
                       {answerText ? (
-                        <p className="text-slate-200 whitespace-pre-wrap leading-relaxed font-sans">
+                        <p className="text-slate-800 dark:text-slate-200 whitespace-pre-wrap leading-relaxed font-sans">
                           {answerText}
                         </p>
                       ) : (
-                        <p className="text-amber-400/80 italic">
+                        <p className="text-amber-600 dark:text-amber-400/80 italic">
                           [No answer provided for this question]
                         </p>
                       )}
@@ -976,10 +976,10 @@ export default function InterviewSessionClient() {
           )}
 
           {/* Bottom Actions */}
-          <div className="mt-10 pt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
+          <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
             <Link
               href="/"
-              className="text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+              className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               ← Return to Dashboard
             </Link>
@@ -989,9 +989,9 @@ export default function InterviewSessionClient() {
                 <button
                   type="button"
                   onClick={() => setCompletionViewMode("report")}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-500/40 bg-indigo-950/40 px-4 py-2.5 text-xs font-semibold text-indigo-300 hover:text-white transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-4 py-2.5 text-xs font-semibold text-indigo-700 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:text-white transition-colors"
                 >
-                  <Award className="h-3.5 w-3.5 text-indigo-400" />
+                  <Award className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   <span>View Evaluation Report</span>
                 </button>
               )}
@@ -1013,7 +1013,7 @@ export default function InterviewSessionClient() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Top Header Bar */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 backdrop-blur-md">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-xs dark:border-slate-800 dark:bg-slate-900/60 backdrop-blur-md">
         <div className="flex items-center gap-3">
           <Link
             href="/mock-interview"
@@ -1021,24 +1021,24 @@ export default function InterviewSessionClient() {
               stopListening();
               stopReading();
             }}
-            className="text-slate-400 hover:text-white transition-colors p-1"
+            className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors p-1"
             title="Leave Session"
           >
             <ArrowLeft className="h-4 w-4" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-white">
+              <span className="text-xs font-bold text-slate-900 dark:text-white">
                 {sessionData.settings.role}
               </span>
-              <span className="rounded-full bg-indigo-500/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-300 border border-indigo-500/20">
+              <span className="rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/20 px-2 py-0.5 text-[10px] font-semibold">
                 {sessionData.settings.difficulty}
               </span>
-              <span className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-300 border border-slate-700">
+              <span className="rounded-full bg-slate-100 text-slate-700 border border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700 px-2 py-0.5 text-[10px] font-medium">
                 {inputMode === "voice" ? "Voice Mode" : "Typed Mode"}
               </span>
             </div>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-600 dark:text-slate-400">
               {sessionData.settings.type} Session • {answeredCount} of {totalQuestions} answered
             </span>
           </div>
@@ -1049,11 +1049,11 @@ export default function InterviewSessionClient() {
           <div
             className={`flex items-center gap-2 rounded-xl px-3.5 py-1.5 border font-mono text-xs transition-colors ${
               timerSeconds <= 20
-                ? "border-rose-500/40 bg-rose-950/40 text-rose-300"
-                : "border-slate-800 bg-slate-950 text-slate-200"
+                ? "border-rose-300 bg-rose-50 text-rose-700 dark:border-rose-500/40 dark:bg-rose-950/40 dark:text-rose-300"
+                : "border-slate-300 bg-slate-50 text-slate-800 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
             }`}
           >
-            <Clock className="h-3.5 w-3.5 text-indigo-400" />
+            <Clock className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
             <span className="font-bold text-sm">{formatTime(timerSeconds)}</span>
           </div>
 
@@ -1061,12 +1061,12 @@ export default function InterviewSessionClient() {
             type="button"
             onClick={() => setIsTimerPaused(!isTimerPaused)}
             aria-label={isTimerPaused ? "Resume timer" : "Pause timer"}
-            className="rounded-xl border border-slate-800 bg-slate-950/80 p-2 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+            className="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 p-2 text-slate-700 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white shadow-2xs transition-colors"
           >
             {isTimerPaused ? (
-              <Play className="h-3.5 w-3.5 text-emerald-400" />
+              <Play className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
             ) : (
-              <Pause className="h-3.5 w-3.5 text-slate-400" />
+              <Pause className="h-3.5 w-3.5 text-slate-500 dark:text-slate-400" />
             )}
           </button>
 
@@ -1077,9 +1077,9 @@ export default function InterviewSessionClient() {
               stopReading();
               setIsFinishModalOpen(true);
             }}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:bg-rose-950/60 hover:border-rose-500/50 hover:text-rose-200 transition-colors ml-2"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-rose-50 hover:border-rose-300 hover:text-rose-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:bg-rose-950/60 dark:hover:border-rose-500/50 dark:hover:text-rose-200 shadow-2xs transition-colors ml-2"
           >
-            <Flag className="h-3 w-3 text-rose-400" />
+            <Flag className="h-3 w-3 text-rose-600 dark:text-rose-400" />
             <span>Finish</span>
           </button>
         </div>
@@ -1087,15 +1087,15 @@ export default function InterviewSessionClient() {
 
       {/* Question Progress Indicator Pills */}
       <div className="mb-6">
-        <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
+        <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 mb-2">
           <span>
-            Question <strong className="text-white">{currentIndex + 1}</strong> of {totalQuestions}
+            Question <strong className="text-slate-900 dark:text-white font-bold">{currentIndex + 1}</strong> of {totalQuestions}
           </span>
-          <span>{Math.round(((currentIndex + 1) / totalQuestions) * 100)}% Progress</span>
+          <span className="font-medium">{Math.round(((currentIndex + 1) / totalQuestions) * 100)}% Progress</span>
         </div>
 
         {/* Progress Bar */}
-        <div className="h-1.5 w-full rounded-full bg-slate-800 overflow-hidden mb-3">
+        <div className="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden mb-3">
           <div
             className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / totalQuestions) * 100}%` }}
@@ -1114,15 +1114,15 @@ export default function InterviewSessionClient() {
                 onClick={() => goToQuestion(idx)}
                 className={`flex h-8 min-w-8 items-center justify-center rounded-lg px-2 text-xs font-semibold border transition-all ${
                   isCurrent
-                    ? "border-indigo-500 bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
+                    ? "border-indigo-600 bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
                     : hasAnswer
-                    ? "border-emerald-500/40 bg-emerald-950/30 text-emerald-300 hover:bg-emerald-900/40"
-                    : "border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700 hover:text-white"
+                    ? "border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 dark:border-emerald-500/40 dark:bg-emerald-950/30 dark:text-emerald-300 hover:dark:bg-emerald-900/40"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:text-slate-900 shadow-2xs dark:border-slate-800 dark:bg-slate-950/60 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-white"
                 }`}
               >
                 <span>{idx + 1}</span>
                 {hasAnswer && !isCurrent && (
-                  <span className="ml-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span className="ml-1 h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" />
                 )}
               </button>
             );
@@ -1131,14 +1131,14 @@ export default function InterviewSessionClient() {
       </div>
 
       {/* Main Question & Answer Panel */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6 sm:p-8 backdrop-blur-xl shadow-2xl shadow-indigo-950/40">
+      <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 backdrop-blur-xl dark:shadow-2xl dark:shadow-indigo-950/40">
         {/* Question Header */}
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-4 mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4 mb-4">
           <div className="flex items-center gap-2.5">
-            <span className="rounded-lg bg-indigo-500/10 px-2.5 py-1 text-xs font-bold text-indigo-300 border border-indigo-500/20">
+            <span className="rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/20 px-2.5 py-1 text-xs font-bold">
               {currentQ.category}
             </span>
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-slate-600 dark:text-slate-400 font-mono">
               Target: ~{currentQ.expectedDurationSeconds}s
             </span>
           </div>
@@ -1150,20 +1150,20 @@ export default function InterviewSessionClient() {
                 type="button"
                 onClick={handleReadAloud}
                 aria-label={isSpeaking ? "Stop reading question prompt" : "Read question prompt aloud"}
-                className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
+                className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold shadow-2xs transition-all ${
                   isSpeaking
-                    ? "border-amber-500/50 bg-amber-950/50 text-amber-300 shadow-sm animate-pulse"
-                    : "border-slate-800 bg-slate-950/80 text-slate-300 hover:border-slate-700 hover:text-white"
+                    ? "border-amber-400 bg-amber-50 text-amber-800 dark:border-amber-500/50 dark:bg-amber-950/50 dark:text-amber-300 animate-pulse"
+                    : "border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white"
                 }`}
               >
                 {isSpeaking ? (
                   <>
-                    <VolumeX className="h-3.5 w-3.5 text-amber-400" />
+                    <VolumeX className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
                     <span>Stop Reading</span>
                   </>
                 ) : (
                   <>
-                    <Volume2 className="h-3.5 w-3.5 text-indigo-400" />
+                    <Volume2 className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                     <span>Read Aloud</span>
                   </>
                 )}
@@ -1171,7 +1171,7 @@ export default function InterviewSessionClient() {
             )}
 
             {isTimerPaused && (
-              <span className="rounded-full bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-semibold text-amber-300 border border-amber-500/20 animate-pulse">
+              <span className="rounded-full bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-500/10 dark:text-amber-300 dark:border-amber-500/20 px-2.5 py-0.5 text-[10px] font-semibold animate-pulse">
                 Timer Paused
               </span>
             )}
@@ -1180,15 +1180,15 @@ export default function InterviewSessionClient() {
 
         {/* Question Prompt */}
         <div className="mb-6">
-          <h2 className="text-lg sm:text-xl font-bold text-white leading-relaxed">
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-relaxed">
             {currentQ.text}
           </h2>
         </div>
 
         {/* Input Mode Switcher Tabs */}
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
           <div
-            className="inline-flex rounded-xl bg-slate-950 p-1 border border-slate-800"
+            className="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200 dark:bg-slate-950 dark:border-slate-800"
             role="tablist"
             aria-label="Answer input mode"
           >
@@ -1204,7 +1204,7 @@ export default function InterviewSessionClient() {
               className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 inputMode === "typed"
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-slate-200"
+                  : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               <Keyboard className="h-3.5 w-3.5" />
@@ -1222,7 +1222,7 @@ export default function InterviewSessionClient() {
               className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 inputMode === "voice"
                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
-                  : "text-slate-400 hover:text-slate-200"
+                  : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               <Mic className="h-3.5 w-3.5" />
@@ -1232,12 +1232,12 @@ export default function InterviewSessionClient() {
 
           <div className="flex items-center gap-3">
             {isListening && (
-              <span className="flex items-center gap-1.5 text-xs text-rose-400 font-semibold animate-pulse">
+              <span className="flex items-center gap-1.5 text-xs text-rose-600 dark:text-rose-400 font-semibold animate-pulse">
                 <span className="h-2 w-2 rounded-full bg-rose-500" />
                 <span>Recording</span>
               </span>
             )}
-            <span className="text-xs text-slate-500 font-mono">
+            <span className="text-xs text-slate-600 dark:text-slate-500 font-mono">
               {currentAnswer.length} characters (Autosaved)
             </span>
           </div>
@@ -1245,7 +1245,7 @@ export default function InterviewSessionClient() {
 
         {/* VOICE MODE CONTROLLER PANEL (Rendered when Voice Mode is selected) */}
         {inputMode === "voice" && (
-          <div className="mb-4 rounded-2xl border border-indigo-500/30 bg-slate-950/80 p-4 sm:p-5 space-y-4">
+          <div className="mb-4 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 sm:p-5 space-y-4 dark:border-indigo-500/30 dark:bg-slate-950/80">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
                 <button
@@ -1276,7 +1276,7 @@ export default function InterviewSessionClient() {
                     onClick={handleClearAnswer}
                     disabled={isListening}
                     title="Clear current answer"
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-400 hover:text-slate-200 disabled:opacity-40 transition-colors"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-slate-200 disabled:opacity-40 shadow-2xs transition-colors"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>Clear</span>
@@ -1287,7 +1287,7 @@ export default function InterviewSessionClient() {
               {/* Status Indicator */}
               <div className="flex items-center gap-2">
                 {isListening ? (
-                  <div className="flex items-center gap-2 text-xs font-semibold text-rose-400">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-rose-600 dark:text-rose-400">
                     <span className="relative flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500" />
@@ -1295,7 +1295,7 @@ export default function InterviewSessionClient() {
                     <span>Listening... Speak your answer</span>
                   </div>
                 ) : (
-                  <span className="text-xs text-slate-500 font-medium">
+                  <span className="text-xs text-slate-600 dark:text-slate-500 font-medium">
                     Microphone ready • Click &ldquo;Start Speaking&rdquo; to begin
                   </span>
                 )}
@@ -1304,11 +1304,11 @@ export default function InterviewSessionClient() {
 
             {/* Real-time Interim Speech Detection Bubble */}
             {isListening && interimTranscript && (
-              <div className="rounded-xl bg-indigo-950/50 border border-indigo-500/30 p-3 text-xs text-indigo-200">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block mb-1">
+              <div className="rounded-xl bg-indigo-100/70 border border-indigo-300/80 p-3 text-xs text-indigo-950 dark:bg-indigo-950/50 dark:border-indigo-500/30 dark:text-indigo-200">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block mb-1">
                   Live Speech Preview:
                 </span>
-                <p className="italic font-sans leading-relaxed text-indigo-100">
+                <p className="italic font-sans leading-relaxed text-indigo-900 dark:text-indigo-100">
                   &ldquo;{interimTranscript}&rdquo;
                 </p>
               </div>
@@ -1316,12 +1316,12 @@ export default function InterviewSessionClient() {
 
             {/* Voice Error Banner */}
             {voiceError && (
-              <div className="rounded-xl bg-rose-950/30 border border-rose-500/40 p-3.5 text-xs text-rose-200">
-                <div className="flex items-center gap-2 font-bold text-rose-300 mb-1">
+              <div className="rounded-xl bg-rose-50 border border-rose-300 p-3.5 text-xs text-rose-900 dark:bg-rose-950/30 dark:border-rose-500/40 dark:text-rose-200">
+                <div className="flex items-center gap-2 font-bold text-rose-800 dark:text-rose-300 mb-1">
                   <AlertCircle className="h-4 w-4" />
                   <span>{voiceError.title}</span>
                 </div>
-                <p className="leading-relaxed text-slate-300">{voiceError.message}</p>
+                <p className="leading-relaxed text-slate-700 dark:text-slate-300">{voiceError.message}</p>
                 {voiceError.retryable && (
                   <div className="mt-3 flex items-center gap-2">
                     <button
@@ -1337,7 +1337,7 @@ export default function InterviewSessionClient() {
                         setVoiceError(null);
                         setInputMode("typed");
                       }}
-                      className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-[11px] font-semibold text-slate-300 hover:text-white transition-colors"
+                      className="rounded-lg border border-slate-300 bg-white hover:bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:text-white transition-colors"
                     >
                       Switch to Typed Mode
                     </button>
@@ -1348,12 +1348,12 @@ export default function InterviewSessionClient() {
 
             {/* Unsupported Browser Warning (e.g. Firefox) */}
             {!hasSTT && (
-              <div className="rounded-xl bg-amber-950/30 border border-amber-500/40 p-3.5 text-xs text-amber-200">
-                <div className="flex items-center gap-2 font-bold text-amber-300 mb-1">
+              <div className="rounded-xl bg-amber-50 border border-amber-300 p-3.5 text-xs text-amber-900 dark:bg-amber-950/30 dark:border-amber-500/40 dark:text-amber-200">
+                <div className="flex items-center gap-2 font-bold text-amber-800 dark:text-amber-300 mb-1">
                   <AlertTriangle className="h-4 w-4" />
                   <span>Speech Recognition Not Supported in this Browser</span>
                 </div>
-                <p className="leading-relaxed text-slate-300 mb-2.5">
+                <p className="leading-relaxed text-slate-700 dark:text-slate-300 mb-2.5">
                   Your current browser does not support the Web Speech API recognition interface (such as Mozilla Firefox).
                   You can use &ldquo;Read Aloud&rdquo; and type your answers below, or switch to Chrome, Edge, Brave, or Safari for voice input.
                 </p>
@@ -1368,10 +1368,10 @@ export default function InterviewSessionClient() {
             )}
 
             {/* Privacy and Transparency Disclosure */}
-            <div className="rounded-xl bg-slate-900/60 p-3 border border-slate-800 text-[11px] text-slate-400 flex items-start gap-2">
-              <ShieldCheck className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div className="rounded-xl bg-white/80 p-3 border border-slate-200 text-[11px] text-slate-600 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-400 flex items-start gap-2">
+              <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <p className="leading-relaxed">
-                <strong className="text-slate-300">Voice Privacy Notice: </strong>
+                <strong className="text-slate-900 dark:text-slate-300 font-semibold">Voice Privacy Notice: </strong>
                 Speech recognition is processed through your browser&apos;s Web Speech API and may use your device or browser vendor&apos;s speech service.
                 Raw audio is never sent to Gemini or saved on our servers. Your transcribed answer remains in your browser until you choose to submit it.
               </p>
@@ -1384,14 +1384,14 @@ export default function InterviewSessionClient() {
           <div className="flex items-center justify-between mb-2">
             <label
               htmlFor="interview-answer-input"
-              className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5"
+              className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5"
             >
-              <FileText className="h-3.5 w-3.5 text-indigo-400" />
+              <FileText className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
               <span>
                 {inputMode === "voice" ? "Recognized Answer (Editable)" : "Your Answer"}
               </span>
             </label>
-            <span className="text-[11px] text-slate-500 font-sans">
+            <span className="text-[11px] text-slate-600 dark:text-slate-500 font-sans">
               {inputMode === "voice"
                 ? "You can type or fix any spoken words directly in this box"
                 : "Type your answer clearly with concrete examples"}
@@ -1408,10 +1408,10 @@ export default function InterviewSessionClient() {
                 ? "Click 'Start Speaking' above to dictate your response, or type here directly. You can edit any transcribed text at any time..."
                 : "Structure your thoughts clearly. For technical questions, describe edge cases, implementation trade-offs, and scalability. For behavioral questions, follow the STAR approach (Situation, Task, Action, Result)..."
             }
-            className="w-full rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-sm text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 resize-y transition-colors font-sans leading-relaxed"
+            className="w-full rounded-2xl border border-slate-300 bg-slate-50 p-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500/50 resize-y transition-colors font-sans leading-relaxed dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-500"
           />
 
-          <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
+          <div className="mt-2 flex items-center justify-between text-[11px] text-slate-600 dark:text-slate-500">
             <span>
               Spoken answers are never submitted automatically. Review and edit before clicking Next.
             </span>
@@ -1420,12 +1420,12 @@ export default function InterviewSessionClient() {
         </div>
 
         {/* Navigation Controls */}
-        <div className="mt-8 pt-5 border-t border-slate-800 flex items-center justify-between gap-3">
+        <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => goToQuestion(currentIndex - 1)}
             disabled={currentIndex === 0}
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:border-slate-700 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:border-slate-700 dark:hover:text-white disabled:opacity-40 disabled:cursor-not-allowed shadow-2xs transition-all"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Previous</span>
@@ -1463,24 +1463,24 @@ export default function InterviewSessionClient() {
       {isFinishModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm"
             onClick={() => setIsFinishModalOpen(false)}
           />
 
-          <div className="relative w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6 sm:p-8 shadow-2xl z-10 text-center">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-4">
+          <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-2xl z-10 text-center dark:border-slate-700 dark:bg-slate-900">
+            <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20 mb-4">
               <Flag className="h-6 w-6" />
             </div>
 
-            <h3 className="text-xl font-bold text-white">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
               Finish Mock Interview?
             </h3>
 
-            <p className="mt-2.5 text-xs text-slate-300 leading-relaxed">
-              You have answered <strong className="text-white">{answeredCount}</strong> out of{" "}
-              <strong className="text-white">{totalQuestions}</strong> questions.
+            <p className="mt-2.5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+              You have answered <strong className="text-slate-900 dark:text-white font-bold">{answeredCount}</strong> out of{" "}
+              <strong className="text-slate-900 dark:text-white font-bold">{totalQuestions}</strong> questions.
               {answeredCount < totalQuestions && (
-                <span className="block mt-1 text-amber-300">
+                <span className="block mt-1 text-amber-700 dark:text-amber-300 font-medium">
                   {totalQuestions - answeredCount} skipped question(s) will be recorded as unattempted and excluded from your answered-question score.
                 </span>
               )}
@@ -1490,7 +1490,7 @@ export default function InterviewSessionClient() {
               <button
                 type="button"
                 onClick={() => setIsFinishModalOpen(false)}
-                className="rounded-xl border border-slate-800 bg-slate-950 px-4 py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors"
+                className="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:text-white shadow-2xs transition-colors"
               >
                 Continue Answering
               </button>
