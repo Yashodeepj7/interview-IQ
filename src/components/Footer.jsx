@@ -19,10 +19,10 @@ const companyLinks = [
 
 const techLinks = [
   { label: "Next.js (App Router)", href: "/" },
-  { label: "Google Gemini AI", href: "/" },
+  { label: "AI Evaluation Engine", href: "/mock-interview" },
   { label: "NextAuth.js", href: "/" },
   { label: "Lucide Icons", href: "/" },
-  { label: "AI Test Console", href: "/ai-test" },
+  { label: "Mock Interviews", href: "/mock-interview" },
 ];
 
 export default function Footer() {
@@ -123,10 +123,10 @@ export default function Footer() {
             <div className="mt-6 rounded-xl border border-indigo-200 bg-indigo-50/70 p-4 dark:border-indigo-500/20 dark:bg-gradient-to-br dark:from-indigo-500/8 dark:to-violet-500/5">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-                <span className="text-xs font-bold text-indigo-800 dark:text-indigo-300">Powered by Gemini</span>
+                <span className="text-xs font-bold text-indigo-800 dark:text-indigo-300">Production AI Engine</span>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-normal">
-                Real AI. No mock endpoints. Every interview is powered by Google Gemini.
+                Real-time AI evaluation, precision rubric analysis, and personalized career coaching.
               </p>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function Footer() {
           <p>
             Crafted with{" "}
             <span className="text-rose-500">♥</span>{" "}
-            using Next.js & Google Gemini AI
+            for tech candidates & engineering teams
           </p>
         </div>
       </div>

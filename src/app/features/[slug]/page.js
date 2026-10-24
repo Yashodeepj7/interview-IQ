@@ -15,7 +15,7 @@ const featureDetails = {
     status: "Active & Functional",
     tagline: "Evidence-based competency audit & bullet impact rewrites",
     description:
-      "Extract readable text from PDF resumes in-memory, generate concise executive summaries, categorize demonstrated skills with verified evidence, and provide action-oriented bullet rewrites powered by Gemini.",
+      "Extract readable text from PDF resumes in-memory, generate concise executive summaries, categorize demonstrated skills with verified evidence, and provide action-oriented bullet rewrites powered by advanced AI.",
     plannedFeatures: [
       "In-memory PDF text extraction with signature verification",
       "Evidence-based categorized skills & competencies",
@@ -24,7 +24,7 @@ const featureDetails = {
     ],
     technicalHighlights: [
       "Zero-disk persistence for maximum PII security",
-      "Gemini structured JSON schema validation",
+      "Strict structured JSON schema validation",
       "Prompt-injection defense wrappers",
     ],
   },
@@ -44,7 +44,7 @@ const featureDetails = {
     technicalHighlights: [
       "Server-side PDF extraction with unpdf",
       "Strict 15,000 char job description validation",
-      "Structured Gemini AI evaluation schema",
+      "Structured AI evaluation rubrics schema",
     ],
   },
   "voice-mock-interviewer": {

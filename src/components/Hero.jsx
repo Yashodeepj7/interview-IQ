@@ -49,7 +49,7 @@ export default function Hero({ onOpenMockModal }) {
               Next-Generation AI Interview Platform
             </span>
             <span className="text-slate-400 dark:text-indigo-300/60">•</span>
-            <span className="text-indigo-700 dark:text-violet-300 font-bold">Powered by Gemini</span>
+            <span className="text-indigo-700 dark:text-violet-300 font-bold">Real-Time AI Feedback</span>
           </div>
 
           {/* Heading */}

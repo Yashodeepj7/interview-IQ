@@ -330,7 +330,7 @@ function InterviewDetailContent({ params }) {
                 <div>
                   <p className="font-semibold">Transcript-Only Session</p>
                   <p className="mt-0.5 text-amber-800 dark:text-amber-300/80 leading-relaxed">
-                    This interview was saved directly without requesting an AI Gemini evaluation. Your questions and responses are preserved below for self-review.
+                    This interview was saved directly without requesting an AI evaluation. Your questions and responses are preserved below for self-review.
                   </p>
                 </div>
               </div>

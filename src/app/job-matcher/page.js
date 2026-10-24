@@ -464,7 +464,7 @@ export default function JobMatcherPage() {
               <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div>
                 <span className="font-semibold text-slate-900 dark:text-slate-200">Privacy & Processing: </span>
-                Extracted resume text and the pasted job description are sent securely to Google Gemini for one-time comparative analysis. Uploaded documents are <strong className="text-slate-900 dark:text-slate-300 font-semibold">not stored on disk or in persistent databases</strong>. Please avoid uploading sensitive personal information you do not have permission to share.
+                Extracted resume text and the pasted job description are analyzed securely in real time for one-time comparative analysis. Uploaded documents are <strong className="text-slate-900 dark:text-slate-300 font-semibold">not stored on disk or in persistent databases</strong>. Please avoid uploading sensitive personal information you do not have permission to share.
               </div>
             </div>
 

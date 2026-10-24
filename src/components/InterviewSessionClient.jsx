@@ -534,7 +534,7 @@ export default function InterviewSessionClient() {
           <h2 className="text-2xl font-bold text-white">No Active Session Found</h2>
           <p className="mt-3 text-sm text-slate-400 leading-relaxed">
             You do not have an active interview session in progress, or your previous session has ended.
-            Configure a new session to get customized Gemini questions.
+            Configure a new session to get customized questions tailored to your target role.
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Link
@@ -777,7 +777,7 @@ export default function InterviewSessionClient() {
                 </h2>
               </div>
               <span className="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700 border border-indigo-200 dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/20">
-                Powered by Gemini
+                AI Evaluation Engine
               </span>
             </div>
 
@@ -792,7 +792,7 @@ export default function InterviewSessionClient() {
               <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <p className="leading-relaxed">
                 <strong className="text-slate-900 dark:text-slate-300 font-semibold">Privacy & Data Handling: </strong>
-                Submitting your answers to the Gemini API is required to generate this evaluation.
+                Submitting your answers to the AI evaluation engine is required to generate this evaluation.
                 Evaluation occurs on-demand. When saved, interview transcripts and rubrics are persisted to your MongoDB Atlas history and remain accessible until explicitly deleted from your personal dashboard.
               </p>
             </div>
@@ -859,7 +859,7 @@ export default function InterviewSessionClient() {
                   {isEvaluating ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin text-white" />
-                      <span>Evaluating Answers with Gemini AI...</span>
+                      <span>Evaluating Answers with AI Intelligence...</span>
                     </>
                   ) : (
                     <>
@@ -1373,7 +1373,7 @@ export default function InterviewSessionClient() {
               <p className="leading-relaxed">
                 <strong className="text-slate-900 dark:text-slate-300 font-semibold">Voice Privacy Notice: </strong>
                 Speech recognition is processed through your browser&apos;s Web Speech API and may use your device or browser vendor&apos;s speech service.
-                Raw audio is never sent to Gemini or saved on our servers. Your transcribed answer remains in your browser until you choose to submit it.
+                Raw audio is never saved on our servers. Your transcribed answer remains in your browser until you choose to submit it.
               </p>
             </div>
           </div>

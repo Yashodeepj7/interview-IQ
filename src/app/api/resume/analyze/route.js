@@ -181,7 +181,7 @@ ${extracted.text}
         {
           success: false,
           error:
-            "The Gemini AI service is currently experiencing temporary high demand. Please try again in a moment.",
+            "The AI service is currently experiencing temporary high demand. Please try again in a moment.",
           code: "SERVICE_UNAVAILABLE",
         },
         { status: 503 }
@@ -193,7 +193,7 @@ ${extracted.text}
       return Response.json(
         {
           success: false,
-          error: "Gemini API rate limit or quota exceeded. Please wait a moment and try again.",
+          error: "AI service rate limit or quota exceeded. Please wait a moment and try again.",
           code: "RATE_LIMITED",
         },
         { status: 429 }

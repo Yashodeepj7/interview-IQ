@@ -225,7 +225,7 @@ export default function ResumeAnalyzerPage() {
             AI Resume Analyzer
           </h1>
           <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-            Upload your PDF resume to receive evidence-based competency categorization, executive profile summary, and quantifiable bullet rewrites powered by Gemini.
+            Upload your PDF resume to receive evidence-based competency categorization, executive profile summary, and quantifiable bullet rewrites powered by advanced AI.
           </p>
         </div>
 
@@ -339,7 +339,7 @@ export default function ResumeAnalyzerPage() {
               <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <div>
                 <span className="font-semibold text-slate-900 dark:text-slate-200">Privacy & In-Memory Processing: </span>
-                Your resume text is extracted in memory and sent securely to Google Gemini for one-time analysis. Uploaded files are <strong className="text-slate-900 dark:text-slate-300 font-semibold">never saved to disk or persistent databases</strong> by this prototype. Please avoid uploading sensitive identification (e.g. SSN or passport details) you do not wish to share with AI providers.
+                Your resume text is extracted in memory and analyzed securely for one-time evaluation. Uploaded files are <strong className="text-slate-900 dark:text-slate-300 font-semibold">never saved to disk or persistent databases</strong>. Please avoid uploading sensitive identification (e.g. SSN or passport details) you do not wish to share with AI providers.
               </div>
             </div>
 

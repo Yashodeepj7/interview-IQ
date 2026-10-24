@@ -149,7 +149,7 @@ export default function MockInterviewSetup() {
           Configure Your Mock Interview
         </h1>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400 font-normal">
-          Customize your role, experience level, and format. Gemini will synthesize a realistic, targeted set of questions designed to test your real-world skills.
+          Customize your role, experience level, and format. Our AI engine will synthesize a realistic, targeted set of questions designed to test your real-world skills.
         </p>
       </div>
 
@@ -467,7 +467,7 @@ export default function MockInterviewSetup() {
             {isLoading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin text-white" />
-                <span>Generating Interview Plan with Gemini...</span>
+                <span>Generating Your Interview Plan...</span>
               </>
             ) : (
               <>
