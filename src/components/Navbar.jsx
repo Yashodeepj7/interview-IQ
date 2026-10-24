@@ -17,14 +17,15 @@ import {
   Compass,
   Sun,
   Moon,
+  Scale,
 } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
 const navLinks = [
-  { label: "Resume Analyzer", href: "/resume-analyzer", icon: FileText },
   { label: "Mock Interview", href: "/mock-interview", icon: Mic },
-  { label: "Performance", href: "/features/performance-dashboard", icon: BarChart3 },
-  { label: "Career Roadmap", href: "/features/career-roadmap", icon: Compass },
+  { label: "Resume Analyzer", href: "/resume-analyzer", icon: FileText },
+  { label: "Job Matcher", href: "/job-matcher", icon: Scale },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 ];
 
 export default function Navbar({ onOpenMockModal }) {
@@ -80,15 +81,6 @@ export default function Navbar({ onOpenMockModal }) {
 
         {/* ── Desktop Actions ── */}
         <div className="hidden md:flex items-center gap-2.5">
-          {/* AI Console */}
-          <Link
-            href="/ai-test"
-            id="nav-ai-test-link"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-indigo-700 hover:text-indigo-900 border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100/70 dark:border-indigo-500/25 dark:text-indigo-300 dark:bg-indigo-950/30 dark:hover:bg-indigo-950/50 transition-all"
-          >
-            <Sparkles className="h-3 w-3 text-indigo-600 dark:text-indigo-400" />
-            <span className="hidden lg:inline">AI Console</span>
-          </Link>
 
           {/* Theme Toggle Button */}
           <button
@@ -154,19 +146,19 @@ export default function Navbar({ onOpenMockModal }) {
               type="button"
               id="nav-cta-btn"
               onClick={onOpenMockModal}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-95 active:scale-95 shadow-md shadow-indigo-600/20"
+              className="btn-shimmer flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-95 active:scale-95 shadow-md shadow-indigo-600/20"
               style={{
                 background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
               }}
             >
               <Mic className="h-3.5 w-3.5" />
-              Start Interview
+              <span>Start Interview</span>
             </button>
           ) : (
             <Link
               href="/mock-interview"
               id="nav-cta-link"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-95 active:scale-95 shadow-md shadow-indigo-600/20"
+              className="btn-shimmer flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-95 active:scale-95 shadow-md shadow-indigo-600/20"
               style={{
                 background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
               }}
@@ -266,14 +258,7 @@ export default function Navbar({ onOpenMockModal }) {
               </Link>
             ))}
 
-            <Link
-              href="/ai-test"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-white/5 transition-all"
-            >
-              <Sparkles className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
-              AI Test Console
-            </Link>
+
 
             {/* Theme Toggle option in mobile drawer */}
             <button

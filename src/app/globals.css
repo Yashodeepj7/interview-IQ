@@ -404,3 +404,85 @@ body {
   50% { opacity: 0; }
 }
 .cursor-blink { animation: blink 1.1s step-end infinite; }
+
+/* ── Interactive Creative Polish & Aurora Styles ── */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 80%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.btn-shimmer:hover::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+/* ── Creative Floating Badges ── */
+.float-badge-1 {
+  animation: float-soft 4.5s ease-in-out infinite 0s;
+}
+.float-badge-2 {
+  animation: float-soft 5.2s ease-in-out infinite 1.2s;
+}
+.float-badge-3 {
+  animation: float-soft 4.8s ease-in-out infinite 2.4s;
+}
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(0.5deg); }
+}
+
+/* ── Glow Spotlight Card ── */
+.glow-card {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(168, 85, 247, 0.1), transparent 60%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.glow-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Dot Grid Background ── */
+.dot-grid {
+  background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+}
+
+/* ── Pulse Wave Radar ── */
+@keyframes radar-pulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+.radar-ring {
+  animation: radar-pulse 2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}

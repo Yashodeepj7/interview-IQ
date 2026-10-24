@@ -478,7 +478,7 @@ export default function JobMatcherPage() {
                 className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl px-10 py-3.5 text-sm font-bold shadow-xl transition-all ${
                   !file || jobDescription.trim().length < MIN_JD_CHARACTERS || isLoading
                     ? "bg-slate-100 text-slate-400 border border-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:border-slate-700 cursor-not-allowed"
-                    : "bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white shadow-emerald-600/30 hover:scale-[1.02] active:scale-[0.98]"
+                    : "btn-shimmer bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white shadow-emerald-600/30 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 }`}
               >
                 {isLoading ? (

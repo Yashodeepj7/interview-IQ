@@ -854,7 +854,7 @@ export default function InterviewSessionClient() {
                   type="button"
                   onClick={handleGenerateEvaluation}
                   disabled={isEvaluating || meaningfulAnsweredCount === 0}
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 px-6 py-3 text-xs font-bold text-white shadow-xl shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95"
+                  className="btn-shimmer inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 px-6 py-3 text-xs font-bold text-white shadow-xl shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 cursor-pointer"
                 >
                   {isEvaluating ? (
                     <>

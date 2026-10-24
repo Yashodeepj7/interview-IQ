@@ -141,51 +141,71 @@ export default function InterviewPreview({ onOpenModal }) {
 
           {/* Question Box */}
           <div className="relative rounded-2xl bg-slate-50 border border-slate-200 dark:bg-slate-950/60 dark:border-white/6 p-5 flex-1">
-            <div className="flex items-center gap-2 mb-3">
-              <Brain className="h-3.5 w-3.5 text-violet-600 dark:text-violet-400" />
-              <span className="text-[10px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-semibold">AI Interviewer</span>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Brain className="h-4 w-4 text-violet-600 dark:text-violet-400" />
+                <span className="text-[11px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-bold">AI Interviewer Prompt</span>
+              </div>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 dark:bg-indigo-950/60 dark:border-indigo-500/30 dark:text-indigo-300 font-semibold">
+                Voice & Text
+              </span>
             </div>
-            <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-200 italic font-medium">
+            <p className="text-sm leading-relaxed text-slate-800 dark:text-slate-100 font-medium">
               {current.question}
             </p>
+
+            {/* Candidate Sample Response Stream Preview */}
+            <div className="mt-4 pt-3.5 border-t border-slate-200/80 dark:border-white/5">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300">Live Transcribed Candidate Answer:</span>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/80 rounded-xl p-3 border border-slate-200/60 dark:border-white/5 leading-relaxed">
+                &ldquo;Under 40k QPS peak, our read replicas hit 98% CPU saturation. We isolated query patterns with p99 latency logging, identified missing composite indexes on tenant timestamps, and implemented Redis caching for read-heavy user preferences, dropping p99 from 820ms to 42ms.&rdquo;
+              </p>
+            </div>
           </div>
 
-          {/* Voice Waveform */}
+          {/* Voice Waveform Visualizer */}
           <div className="rounded-xl bg-slate-50 border border-slate-200 dark:bg-slate-950/40 dark:border-white/5 p-4">
             <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
               <div className="flex items-center gap-2">
                 <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-indigo-100 border border-indigo-200 dark:bg-indigo-600/20 dark:border-indigo-500/20">
                   <Mic className="h-3 w-3 text-indigo-600 dark:text-indigo-400" />
                 </div>
-                <span className="font-medium text-slate-700 dark:text-slate-300">Candidate Microphone Input</span>
+                <span className="font-semibold text-slate-700 dark:text-slate-300">Conversational Voice Spectrum (16kHz Stream)</span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsSimulatingAudio(!isSimulatingAudio)}
-                className="flex items-center gap-1 text-[11px] text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 font-semibold transition-colors"
+                className="flex items-center gap-1.5 text-[11px] text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 font-bold transition-colors cursor-pointer"
               >
                 {isSimulatingAudio ? (
-                  <><Pause className="h-3 w-3" /> Pause</>
+                  <><Pause className="h-3 w-3" /> Live Audio</>
                 ) : (
-                  <><Play className="h-3 w-3" /> Resume</>
+                  <><Play className="h-3 w-3" /> Resume Wave</>
                 )}
               </button>
             </div>
 
             <div className="flex h-12 items-center justify-center gap-1 px-2">
               {[
-                { wave: "voice-wave-1", color: "#6366f1" },
-                { wave: "voice-wave-2", color: "#8b5cf6" },
-                { wave: "voice-wave-3", color: "#4f46e5" },
-                { wave: "voice-wave-4", color: "#a855f7" },
-                { wave: "voice-wave-5", color: "#6366f1" },
-                { wave: "voice-wave-6", color: "#7c3aed" },
-                { wave: "voice-wave-7", color: "#8b5cf6" },
-                { wave: "voice-wave-8", color: "#4f46e5" },
-                { wave: "voice-wave-9", color: "#a855f7" },
+                { wave: "voice-wave-1", color: "#06b6d4" },
+                { wave: "voice-wave-2", color: "#0ea5e9" },
+                { wave: "voice-wave-3", color: "#3b82f6" },
+                { wave: "voice-wave-4", color: "#6366f1" },
+                { wave: "voice-wave-5", color: "#8b5cf6" },
+                { wave: "voice-wave-6", color: "#a855f7" },
+                { wave: "voice-wave-7", color: "#d946ef" },
+                { wave: "voice-wave-8", color: "#8b5cf6" },
+                { wave: "voice-wave-9", color: "#6366f1" },
+                { wave: "voice-wave-4", color: "#3b82f6" },
+                { wave: "voice-wave-2", color: "#0ea5e9" },
+                { wave: "voice-wave-1", color: "#06b6d4" },
                 { wave: "voice-wave-3", color: "#6366f1" },
-                { wave: "voice-wave-1", color: "#8b5cf6" },
-                { wave: "voice-wave-5", color: "#4f46e5" },
+                { wave: "voice-wave-5", color: "#8b5cf6" },
+                { wave: "voice-wave-7", color: "#a855f7" },
+                { wave: "voice-wave-8", color: "#6366f1" },
               ].map(({ wave, color }, i) => (
                 <span
                   key={i}

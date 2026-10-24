@@ -68,10 +68,10 @@ export default function CTASection({ onOpenMockModal }) {
                 type="button"
                 id="cta-bottom-start-mock-btn"
                 onClick={onOpenMockModal}
-                className="group relative flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-2xl px-10 py-4 text-base font-semibold text-white active:scale-[0.98] transition-all duration-200 shadow-xl shadow-indigo-600/40"
+                className="btn-shimmer group relative flex w-full sm:w-auto items-center justify-center gap-3 overflow-hidden rounded-2xl px-10 py-4 text-base font-semibold text-white active:scale-[0.98] transition-all duration-200 shadow-xl shadow-indigo-600/40 hover:shadow-indigo-600/60"
                 style={{
                   background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%)",
-                  boxShadow: "0 0 0 1px rgba(99,102,241,0.55), 0 8px 36px rgba(79,70,229,0.45), 0 1px 0 rgba(255,255,255,0.20) inset",
+                  boxShadow: "0 0 0 1px rgba(99,102,241,0.55), 0 8px 36px rgba(79,70,229,0.45), 0 1px 0 rgba(255,255,255,0.22) inset",
                 }}
               >
                 <Mic className="h-5 w-5 relative z-10" />
@@ -81,8 +81,32 @@ export default function CTASection({ onOpenMockModal }) {
               </button>
             </div>
 
+            {/* Social Proof Avatar Stack */}
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <div className="flex -space-x-2 overflow-hidden">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500 font-bold text-white text-xs ring-2 ring-indigo-950">
+                  AK
+                </span>
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 font-bold text-white text-xs ring-2 ring-indigo-950">
+                  SR
+                </span>
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-500 font-bold text-white text-xs ring-2 ring-indigo-950">
+                  ML
+                </span>
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-cyan-500 font-bold text-white text-xs ring-2 ring-indigo-950">
+                  JD
+                </span>
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 font-bold text-white text-xs ring-2 ring-indigo-950">
+                  +5k
+                </span>
+              </div>
+              <p className="text-xs text-indigo-200 font-medium">
+                Joined by over <span className="font-bold text-white">50,000+ candidates</span> preparing for top engineering roles.
+              </p>
+            </div>
+
             {/* Proof points */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium border-t border-indigo-500/20 pt-6">
               {proofPoints.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-1.5">
                   <Icon className="h-3.5 w-3.5 text-emerald-400" />
