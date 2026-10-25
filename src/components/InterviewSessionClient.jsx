@@ -31,6 +31,8 @@ import {
   Bookmark,
   BookmarkCheck,
   Database,
+  Lock,
+  LogIn,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import EvaluationReportView from "@/components/EvaluationReportView";
@@ -148,7 +150,10 @@ export default function InterviewSessionClient() {
   });
 
   // Step 6: Authentication & MongoDB Persistence State
-  const { data: authSession } = useSession();
+  const { data: authSession, status: authStatus } = useSession();
+  const isAuthenticated = authStatus === "authenticated" && !!authSession?.user;
+  const [showVoiceSessionAuthNotice, setShowVoiceSessionAuthNotice] = useState(false);
+  const lastSpokenQuestionIdRef = useRef(null);
   const [isSaving, setIsSaving] = useState(false);
   const [savedInterviewId, setSavedInterviewId] = useState(null);
   const [saveError, setSaveError] = useState(null);
@@ -226,6 +231,7 @@ export default function InterviewSessionClient() {
     stopReading();
     setInterimTranscript("");
     setVoiceError(null);
+    lastSpokenQuestionIdRef.current = null;
 
     setCurrentIndex(targetIndex);
     const targetQ = questions[targetIndex];
@@ -274,16 +280,16 @@ export default function InterviewSessionClient() {
   };
 
   // Read question prompt aloud via browser TTS
-  const handleReadAloud = () => {
+  const handleReadAloud = (force = false) => {
     if (!hasTTS || !currentQ?.text) return;
 
-    if (isSpeaking) {
+    if (isSpeaking && !force) {
       stopReading();
       return;
     }
 
     // Stop listening before speaking to avoid feedback loop
-    if (isListening) {
+    if (isListeningRef.current) {
       stopListening();
     }
 
@@ -293,8 +299,23 @@ export default function InterviewSessionClient() {
     utterance.pitch = 1.0;
     utterance.lang = "en-US";
 
-    utterance.onstart = () => setIsSpeaking(true);
-    utterance.onend = () => setIsSpeaking(false);
+    utterance.onstart = () => {
+      setIsSpeaking(true);
+      if (isListeningRef.current) {
+        stopListening();
+      }
+    };
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      // Hands-free voice: When AI finishes asking the question, automatically start microphone
+      if (inputMode === "voice" && hasSTT && !isCompleted) {
+        setTimeout(() => {
+          if (!isListeningRef.current) {
+            startListening();
+          }
+        }, 350);
+      }
+    };
     utterance.onerror = (e) => {
       if (e.error !== "canceled" && e.error !== "interrupted") {
         console.warn("TTS notice:", e?.error);
@@ -304,6 +325,48 @@ export default function InterviewSessionClient() {
 
     window.speechSynthesis.speak(utterance);
   };
+
+  // Automatically start asking question with AI voice when in Voice Mode (no button click needed)
+  useEffect(() => {
+    if (!isMounted || !sessionData || isCompleted || inputMode !== "voice" || !hasTTS) {
+      return;
+    }
+
+    // Voice mode requires login: don't auto-speak if unauthenticated
+    if (authStatus !== "loading" && !isAuthenticated) {
+      return;
+    }
+
+    if (!currentQ?.text || !currentQ?.id) return;
+
+    // Avoid duplicate speaking of the same question unless question index changes
+    if (lastSpokenQuestionIdRef.current === currentQ.id) return;
+    lastSpokenQuestionIdRef.current = currentQ.id;
+
+    stopListening();
+    stopReading();
+
+    const autoVoiceTimer = setTimeout(() => {
+      handleReadAloud(true);
+    }, 400);
+
+    return () => {
+      clearTimeout(autoVoiceTimer);
+      stopReading();
+    };
+  }, [
+    currentIndex,
+    currentQ?.id,
+    currentQ?.text,
+    inputMode,
+    isMounted,
+    sessionData,
+    isCompleted,
+    hasTTS,
+    hasSTT,
+    authStatus,
+    isAuthenticated,
+  ]);
 
   // Start voice dictation via Web Speech API
   const startListening = () => {
@@ -1144,12 +1207,23 @@ export default function InterviewSessionClient() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Read Question Aloud TTS Button */}
+            {/* Live AI Voice Speaking Animation Indicator */}
+            {isSpeaking && (
+              <div className="flex items-center gap-1.5 rounded-xl bg-indigo-50 border border-indigo-200 px-3 py-1 text-xs font-semibold text-indigo-700 dark:bg-indigo-950/60 dark:border-indigo-500/30 dark:text-indigo-300 animate-pulse">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600 dark:bg-indigo-400" />
+                </span>
+                <span>AI Voice Speaking...</span>
+              </div>
+            )}
+
+            {/* Read Question Aloud TTS Button (Replay / Pause) */}
             {hasTTS && (
               <button
                 type="button"
-                onClick={handleReadAloud}
-                aria-label={isSpeaking ? "Stop reading question prompt" : "Read question prompt aloud"}
+                onClick={() => handleReadAloud(false)}
+                aria-label={isSpeaking ? "Pause AI voice" : "Replay question prompt"}
                 className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold shadow-2xs transition-all ${
                   isSpeaking
                     ? "border-amber-400 bg-amber-50 text-amber-800 dark:border-amber-500/50 dark:bg-amber-950/50 dark:text-amber-300 animate-pulse"
@@ -1159,12 +1233,12 @@ export default function InterviewSessionClient() {
                 {isSpeaking ? (
                   <>
                     <VolumeX className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-                    <span>Stop Reading</span>
+                    <span>Pause AI Voice</span>
                   </>
                 ) : (
                   <>
                     <Volume2 className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
-                    <span>Read Aloud</span>
+                    <span>Replay Voice</span>
                   </>
                 )}
               </button>
@@ -1200,6 +1274,7 @@ export default function InterviewSessionClient() {
                 stopListening();
                 stopReading();
                 setInputMode("typed");
+                setShowVoiceSessionAuthNotice(false);
               }}
               className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 inputMode === "typed"
@@ -1216,8 +1291,14 @@ export default function InterviewSessionClient() {
               role="tab"
               aria-selected={inputMode === "voice"}
               onClick={() => {
+                if (authStatus !== "loading" && !isAuthenticated) {
+                  setShowVoiceSessionAuthNotice(true);
+                  return;
+                }
                 stopReading();
+                lastSpokenQuestionIdRef.current = null;
                 setInputMode("voice");
+                setShowVoiceSessionAuthNotice(false);
               }}
               className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
                 inputMode === "voice"
@@ -1227,10 +1308,18 @@ export default function InterviewSessionClient() {
             >
               <Mic className="h-3.5 w-3.5" />
               <span>Voice Mode</span>
+              {!isAuthenticated && authStatus !== "loading" && (
+                <Lock className="h-2.5 w-2.5 text-amber-500 ml-0.5" />
+              )}
             </button>
           </div>
 
           <div className="flex items-center gap-3">
+            {inputMode === "voice" && (
+              <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-500/30 px-2.5 py-0.5 text-[10px] font-semibold">
+                Hands-Free AI Voice Active
+              </span>
+            )}
             {isListening && (
               <span className="flex items-center gap-1.5 text-xs text-rose-600 dark:text-rose-400 font-semibold animate-pulse">
                 <span className="h-2 w-2 rounded-full bg-rose-500" />
@@ -1243,8 +1332,50 @@ export default function InterviewSessionClient() {
           </div>
         </div>
 
+        {/* VOICE MODE AUTHENTICATION GATE (Shown if unauthenticated in Voice Mode) */}
+        {((inputMode === "voice" && !isAuthenticated && authStatus !== "loading") || showVoiceSessionAuthNotice) && (
+          <div className="mb-5 rounded-2xl border border-amber-300 bg-amber-50/90 p-4 text-xs text-amber-950 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-200 shadow-sm transition-all">
+            <div className="flex items-start gap-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-600 text-white shadow-xs">
+                <Lock className="h-4 w-4" />
+              </div>
+              <div className="flex-1 space-y-2">
+                <div>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                    Sign In Required for Voice Interview
+                  </h4>
+                  <p className="mt-0.5 text-slate-700 dark:text-slate-300 leading-relaxed text-xs">
+                    Hands-free voice questions and real-time speech transcription require an authenticated account. Please log in to unlock AI voice, or switch to Typed Mode.
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  <Link
+                    href="/login?callbackUrl=/mock-interview/session"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all"
+                  >
+                    <LogIn className="h-3.5 w-3.5" />
+                    <span>Sign In to Unlock Voice Mode</span>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      stopListening();
+                      stopReading();
+                      setInputMode("typed");
+                      setShowVoiceSessionAuthNotice(false);
+                    }}
+                    className="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 transition-colors"
+                  >
+                    Switch to Typed Mode
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* VOICE MODE CONTROLLER PANEL (Rendered when Voice Mode is selected) */}
-        {inputMode === "voice" && (
+        {inputMode === "voice" && isAuthenticated && (
           <div className="mb-4 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-4 sm:p-5 space-y-4 dark:border-indigo-500/30 dark:bg-slate-950/80">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
@@ -1292,11 +1423,19 @@ export default function InterviewSessionClient() {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
                       <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500" />
                     </span>
-                    <span>Listening... Speak your answer</span>
+                    <span>Listening... Speak your answer now</span>
+                  </div>
+                ) : isSpeaking ? (
+                  <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500" />
+                    </span>
+                    <span>AI is asking question with voice...</span>
                   </div>
                 ) : (
                   <span className="text-xs text-slate-600 dark:text-slate-500 font-medium">
-                    Microphone ready • Click &ldquo;Start Speaking&rdquo; to begin
+                    Hands-free voice active • Mic will activate when AI finishes speaking
                   </span>
                 )}
               </div>

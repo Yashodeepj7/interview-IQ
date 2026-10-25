@@ -19,7 +19,10 @@ import {
   HelpCircle,
   Mic,
   Keyboard,
+  Lock,
+  LogIn,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const ROLE_PRESETS = [
   "Frontend Developer",
@@ -57,6 +60,8 @@ const DIFFICULTY_OPTIONS = [
 
 export default function MockInterviewSetup() {
   const router = useRouter();
+  const { data: session, status: authStatus } = useSession();
+  const isAuthenticated = authStatus === "authenticated" && !!session?.user;
 
   const [role, setRole] = useState(ROLE_PRESETS[0]);
   const [customRole, setCustomRole] = useState("");
@@ -67,6 +72,7 @@ export default function MockInterviewSetup() {
   const [difficulty, setDifficulty] = useState("Medium");
   const [topics, setTopics] = useState("");
   const [inputMode, setInputMode] = useState("typed"); // 'typed' or 'voice'
+  const [showVoiceAuthPrompt, setShowVoiceAuthPrompt] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -77,6 +83,16 @@ export default function MockInterviewSetup() {
   async function handleStartInterview(e) {
     e.preventDefault();
     if (!isRoleValid || isLoading) return;
+
+    if (inputMode === "voice" && !isAuthenticated) {
+      setShowVoiceAuthPrompt(true);
+      setError({
+        success: false,
+        error: "Sign In Required for Voice Interview",
+        details: "Please sign in to start a hands-free AI voice interview with automated speech synthesis.",
+      });
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -332,7 +348,10 @@ export default function MockInterviewSetup() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={() => setInputMode("typed")}
+              onClick={() => {
+                setInputMode("typed");
+                setShowVoiceAuthPrompt(false);
+              }}
               className={`rounded-2xl p-4 border text-left transition-all ${
                 inputMode === "typed"
                   ? "border-indigo-600 bg-indigo-50/90 text-indigo-950 shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
@@ -349,13 +368,20 @@ export default function MockInterviewSetup() {
                 )}
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Standard keyboard input with live character count and autosave.
+                Standard keyboard input with live character count and autosave. Available for everyone.
               </p>
             </button>
 
             <button
               type="button"
-              onClick={() => setInputMode("voice")}
+              onClick={() => {
+                setInputMode("voice");
+                if (!isAuthenticated) {
+                  setShowVoiceAuthPrompt(true);
+                } else {
+                  setShowVoiceAuthPrompt(false);
+                }
+              }}
               className={`rounded-2xl p-4 border text-left transition-all ${
                 inputMode === "voice"
                   ? "border-indigo-600 bg-indigo-50/90 text-indigo-950 shadow-xs ring-1 ring-indigo-500/30 dark:border-indigo-500 dark:bg-indigo-600/20 dark:text-white"
@@ -365,19 +391,65 @@ export default function MockInterviewSetup() {
               <div className="flex items-center gap-2.5 mb-1.5">
                 <Mic className={`h-4 w-4 ${inputMode === "voice" ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500"}`} />
                 <span className="font-bold text-sm text-slate-900 dark:text-slate-100">Voice Mode</span>
-                {inputMode === "voice" && (
-                  <span className="ml-auto rounded-full bg-indigo-100 px-2 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
-                    Selected
+                {isAuthenticated ? (
+                  <span className="ml-auto rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300">
+                    Hands-Free AI Voice
+                  </span>
+                ) : (
+                  <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-800 dark:bg-amber-500/20 dark:text-amber-300">
+                    <Lock className="h-2.5 w-2.5" />
+                    Sign In Required
                   </span>
                 )}
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Dictate answers with Web Speech recognition and audio read-aloud.
+                Hands-free AI voice automatically asks questions aloud with live speech transcription.
               </p>
             </button>
           </div>
+
+          {/* Voice Authentication Required Banner */}
+          {showVoiceAuthPrompt && !isAuthenticated && (
+            <div className="mt-3 rounded-2xl border border-amber-300 bg-amber-50/90 p-4 text-xs text-amber-950 dark:border-amber-500/30 dark:bg-amber-950/40 dark:text-amber-200 shadow-sm transition-all">
+              <div className="flex items-start gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-600 text-white shadow-xs">
+                  <Lock className="h-4 w-4" />
+                </div>
+                <div className="flex-1 space-y-2">
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                      Sign In Required for Voice Interview
+                    </h4>
+                    <p className="mt-0.5 text-slate-700 dark:text-slate-300 leading-relaxed text-xs">
+                      AI Voice Mode automatically speaks questions aloud and listens for your verbal answers. Please sign in to your account to use voice mode, or choose Typed Mode below.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    <Link
+                      href="/login?callbackUrl=/mock-interview"
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all"
+                    >
+                      <LogIn className="h-3.5 w-3.5" />
+                      <span>Sign In to Unlock Voice Mode</span>
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInputMode("typed");
+                        setShowVoiceAuthPrompt(false);
+                      }}
+                      className="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 transition-colors"
+                    >
+                      Continue with Typed Mode
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <p className="text-[11px] text-slate-600 dark:text-slate-500 mt-2">
-            You can also switch freely between typed and voice input at any time during your session.
+            In Voice Mode, our AI interviewer speaks each question out loud automatically as soon as it appears — no button clicks required.
           </p>
         </div>
 
