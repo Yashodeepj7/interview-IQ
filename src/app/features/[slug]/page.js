@@ -136,6 +136,32 @@ export function generateStaticParams() {
   ];
 }
 
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
+  const feature = featureDetails[slug];
+
+  if (!feature) {
+    return {
+      title: "Platform Capability — InterviewIQ",
+      description: "Explore the core engineering capabilities of the InterviewIQ AI platform.",
+    };
+  }
+
+  return {
+    title: `${feature.title} — Capability Spotlight`,
+    description: feature.description,
+    alternates: {
+      canonical: `/features/${slug}`,
+    },
+    openGraph: {
+      title: `${feature.title} — InterviewIQ`,
+      description: feature.description,
+      url: `https://interviewiq-career.vercel.app/features/${slug}`,
+    },
+  };
+}
+
 export default async function FeaturePage({ params }) {
   const resolvedParams = await params;
   const slug = resolvedParams?.slug;
