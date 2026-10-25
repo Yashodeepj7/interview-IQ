@@ -1101,8 +1101,13 @@ export default function InterviewSessionClient() {
                 {inputMode === "voice" ? "Voice Mode" : "Typed Mode"}
               </span>
             </div>
-            <span className="text-[11px] text-slate-600 dark:text-slate-400">
-              {sessionData.settings.type} Session • {answeredCount} of {totalQuestions} answered
+            <span className="text-[11px] text-slate-600 dark:text-slate-400 flex items-center gap-1.5 flex-wrap">
+              <span>{sessionData.settings.type} Session • {answeredCount} of {totalQuestions} answered</span>
+              {sessionData.settings.topics && (
+                <span className="rounded-md bg-indigo-50 border border-indigo-200 px-1.5 py-0.2 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-950/60 dark:border-indigo-500/30 dark:text-indigo-300 max-w-[220px] truncate" title={sessionData.settings.topics}>
+                  Focus: {sessionData.settings.topics}
+                </span>
+              )}
             </span>
           </div>
         </div>
