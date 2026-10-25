@@ -14,8 +14,8 @@ export default function FeatureCard({
   accentClass = "from-indigo-500/20 to-violet-500/20 text-indigo-400 border-indigo-500/30",
   iconBg = "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
 }) {
-  const targetHref = actionHref || (slug === "resume-analyzer" ? "/resume-analyzer" : slug === "job-description-matcher" ? "/job-matcher" : `/features/${slug}`);
-  const isDirectFeature = Boolean(actionHref || slug === "resume-analyzer" || slug === "job-description-matcher");
+  const targetHref = actionHref || (slug === "resume-analyzer" ? "/resume-analyzer" : slug === "job-description-matcher" ? "/resume-analyzer" : `/features/${slug}`);
+  const isDirectFeature = Boolean(actionHref || slug === "resume-analyzer");
 
   return (
     <div

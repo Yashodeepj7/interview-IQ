@@ -272,10 +272,10 @@ export default async function FeaturePage({ params }) {
 
             {slug === "job-description-matcher" && (
               <Link
-                href="/job-matcher"
+                href="/resume-analyzer"
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-600/30 transition-all"
               >
-                <span>Launch Job Matcher</span>
+                <span>Launch AI Resume Analyzer</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             )}

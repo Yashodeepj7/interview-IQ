@@ -10,7 +10,6 @@ import {
   ArrowUpRight,
   CheckCircle2,
   Brain,
-  Scale,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -59,28 +58,6 @@ const featuresData = [
     glowColor: "rgba(59, 130, 246, 0.12)",
     accentColor: "#3b82f6",
     tag: "Interactive Tool",
-  },
-  {
-    id: "feature-job-matcher",
-    title: "Job Description Semantic Matcher",
-    description:
-      "Compare your resume directly against any target job posting to find demonstrated skill overlaps, critical qualification gaps, and truthful bullet adaptations.",
-    icon: Scale,
-    category: "Job Alignment",
-    group: "resumes",
-    actionHref: "/job-matcher",
-    highlights: [
-      "Heuristic alignment score with transparent rubric breakdown",
-      "Side-by-side evidence matrix matching requirements to resume",
-      "Strategic recommendations to address missing requirements",
-    ],
-    gradient: "from-emerald-500/20 to-teal-500/10",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-    iconBorder: "border-emerald-200 dark:border-emerald-500/25",
-    iconBg: "bg-emerald-50 dark:bg-emerald-500/10",
-    glowColor: "rgba(16, 185, 129, 0.14)",
-    accentColor: "#10b981",
-    tag: "Live Feature",
   },
   {
     id: "feature-answer-evaluation",
@@ -153,7 +130,7 @@ const featuresData = [
 const categoryTabs = [
   { id: "all", label: "All Capabilities" },
   { id: "interviews", label: "Voice & Interviews" },
-  { id: "resumes", label: "Resume & Job Match" },
+  { id: "resumes", label: "Resume Intelligence" },
   { id: "analytics", label: "Analytics & History" },
 ];
 
@@ -278,11 +255,11 @@ export default function FeaturesSection() {
             <span>End-to-End Interview Mastery</span>
           </div>
           <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl sm:leading-tight">
-            Six Pillars to{" "}
+            Five Pillars to{" "}
             <span className="text-gradient-accent">Interview Excellence</span>
           </h2>
           <p className="mt-5 text-base sm:text-lg leading-relaxed text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-normal">
-            InterviewIQ combines real-time conversational voice AI, STAR methodology scoring, resume ATS auditing, and semantic job matching to give you an unfair hiring advantage.
+            InterviewIQ combines real-time conversational voice AI, STAR methodology scoring, and resume ATS auditing to give you an unfair hiring advantage.
           </p>
 
           {/* Interactive Category Filter Pills */}

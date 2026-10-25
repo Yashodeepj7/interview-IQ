@@ -24,7 +24,6 @@ import { useTheme } from "@/components/ThemeProvider";
 const navLinks = [
   { label: "Mock Interview", href: "/mock-interview", icon: Mic },
   { label: "Resume Analyzer", href: "/resume-analyzer", icon: FileText },
-  { label: "Job Matcher", href: "/job-matcher", icon: Scale },
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
 ];
 

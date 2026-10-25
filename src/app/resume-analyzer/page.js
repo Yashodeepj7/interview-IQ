@@ -20,6 +20,7 @@ import {
   FileCheck2,
   Copy,
   Check,
+  Mic,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -404,10 +405,12 @@ export default function ResumeAnalyzerPage() {
                   <span>Analyze Another Resume</span>
                 </button>
                 <Link
-                  href="/job-matcher"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all"
+                  href="/mock-interview"
+                  id="resume-to-mock-btn"
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 transition-all cursor-pointer"
                 >
-                  <span>Compare with Job Description</span>
+                  <Mic className="h-3.5 w-3.5" />
+                  <span>Practice Mock Interview</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
@@ -651,10 +654,11 @@ export default function ResumeAnalyzerPage() {
               </button>
 
               <Link
-                href="/job-matcher"
+                href="/mock-interview"
                 className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 transition-all hover:scale-105"
               >
-                <span>Continue to Job Description Matcher</span>
+                <Mic className="h-4 w-4" />
+                <span>Start Mock Interview with Your Profile</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
