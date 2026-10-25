@@ -548,9 +548,8 @@ export default function InterviewSessionClient() {
 
       if (!res.ok || !data.success) {
         setEvalError({
-          message: data.error || "Failed to generate AI evaluation.",
-          details: data.details || (data.instructions ? data.instructions : null),
-          status: res.status,
+          message: data.error || "Our evaluation servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+          heavyTraffic: true,
         });
         setIsEvaluating(false);
         return;
@@ -568,8 +567,8 @@ export default function InterviewSessionClient() {
       }
     } catch (err) {
       setEvalError({
-        message: "Network or server connection error while requesting AI evaluation.",
-        details: err?.message || "Please check your network connection and server status.",
+        message: "Our evaluation servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+        heavyTraffic: true,
       });
     } finally {
       setIsEvaluating(false);
@@ -862,23 +861,20 @@ export default function InterviewSessionClient() {
 
             {/* Error Message if Evaluation Failed */}
             {evalError && (
-              <div className="mb-6 rounded-2xl border border-rose-500/40 bg-rose-950/30 p-4 text-xs text-rose-200">
-                <div className="flex items-center gap-2 font-bold text-rose-300 mb-1">
-                  <AlertCircle className="h-4 w-4" />
-                  <span>Evaluation Request Failed</span>
+              <div className="mb-6 rounded-2xl border border-amber-500/40 bg-amber-50/90 dark:bg-amber-950/30 p-4 text-xs text-amber-950 dark:text-amber-200 shadow-sm">
+                <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white mb-1">
+                  <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                  <span>High Traffic Demand</span>
                 </div>
-                <p className="leading-relaxed">{evalError.message}</p>
-                {evalError.details && (
-                  <p className="mt-1 text-rose-400 font-mono text-[11px]">
-                    Details: {evalError.details}
-                  </p>
-                )}
+                <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+                  {evalError.message || "Our evaluation servers are currently experiencing heavy traffic and high demand. Please try again after some time."}
+                </p>
                 <div className="mt-3">
                   <button
                     type="button"
                     onClick={handleGenerateEvaluation}
                     disabled={isEvaluating}
-                    className="inline-flex items-center gap-2 rounded-xl bg-rose-600 hover:bg-rose-500 px-4 py-2 text-xs font-semibold text-white transition-all shadow-md shadow-rose-600/30 disabled:opacity-50"
+                    className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white transition-all shadow-md shadow-indigo-600/30 disabled:opacity-50"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
                     <span>Retry AI Evaluation</span>

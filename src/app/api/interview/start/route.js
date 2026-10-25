@@ -139,10 +139,8 @@ export async function POST(request) {
     return Response.json(
       {
         success: false,
-        error: "No AI provider is configured. Please configure GEMINI_API_KEY or GROQ_API_KEY in your .env.local file.",
-        setupRequired: true,
-        instructions:
-          "Add your GEMINI_API_KEY (or fallback GROQ_API_KEY) to your .env.local and restart the development server.",
+        error: "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+        heavyTraffic: true,
       },
       { status: 503 }
     );
@@ -218,9 +216,10 @@ Do not include any text before or after the JSON. Return only the JSON object.`;
       return Response.json(
         {
           success: false,
-          error: "Model output did not contain a valid questions list. Please try again.",
+          error: "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+          heavyTraffic: true,
         },
-        { status: 502 }
+        { status: 503 }
       );
     }
 
@@ -251,9 +250,10 @@ Do not include any text before or after the JSON. Return only the JSON object.`;
       return Response.json(
         {
           success: false,
-          error: `Generated question count (${normalizedQuestions.length}) did not match requested count (${questionCount}). Please retry.`,
+          error: "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+          heavyTraffic: true,
         },
-        { status: 502 }
+        { status: 503 }
       );
     }
 
@@ -277,47 +277,14 @@ Do not include any text before or after the JSON. Return only the JSON object.`;
       questions: normalizedQuestions,
     });
   } catch (error) {
-    if (error?.code === "MISSING_API_KEY") {
-      return Response.json(
-        {
-          success: false,
-          error: "No AI provider is configured.",
-          setupRequired: true,
-          instructions:
-            "Add your GEMINI_API_KEY or GROQ_API_KEY to your .env.local and restart the development server.",
-        },
-        { status: 503 }
-      );
-    }
-
-    const errorMsgLower = (error?.message || "").toLowerCase();
-    const isRateLimited =
-      error?.status === 429 ||
-      errorMsgLower.includes("quota") ||
-      errorMsgLower.includes("rate limit") ||
-      errorMsgLower.includes("resource exhausted");
-
-    if (isRateLimited) {
-      return Response.json(
-        {
-          success: false,
-          error: "AI rate limit or free quota exceeded on all providers. Please wait a moment and try again.",
-        },
-        { status: 429 }
-      );
-    }
-
-    const safeDetails = error?.message
-      ? error.message.replace(/key=[^&\s]+/gi, "key=[REDACTED]")
-      : "Failed to generate interview plan.";
-
+    console.error("AI Interview Generation Error:", error?.message || error);
     return Response.json(
       {
         success: false,
-        error: "Failed to create mock interview session.",
-        details: safeDetails,
+        error: "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+        heavyTraffic: true,
       },
-      { status: 502 }
+      { status: 503 }
     );
   }
 }

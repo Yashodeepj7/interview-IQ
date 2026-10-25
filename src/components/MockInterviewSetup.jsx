@@ -116,7 +116,11 @@ export default function MockInterviewSetup() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data);
+        setError({
+          success: false,
+          error: data?.error || "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+          heavyTraffic: true,
+        });
         setIsLoading(false);
         return;
       }
@@ -134,8 +138,8 @@ export default function MockInterviewSetup() {
     } catch (err) {
       setError({
         success: false,
-        error: "Network error occurred while generating interview session.",
-        details: err?.message || "Please check your network connection and server status.",
+        error: "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time.",
+        heavyTraffic: true,
       });
       setIsLoading(false);
     }
@@ -480,42 +484,36 @@ export default function MockInterviewSetup() {
 
         {/* Error Notification Alert */}
         {error && (
-          <div className="rounded-2xl border border-rose-500/30 bg-rose-50 dark:bg-rose-950/20 p-5 text-xs text-rose-900 dark:text-rose-200">
+          <div className="rounded-2xl border border-amber-500/40 bg-amber-50/90 dark:bg-amber-950/30 p-5 text-xs text-amber-950 dark:text-amber-200 shadow-sm transition-all">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
-              <div className="space-y-2 w-full">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500 text-white shadow-xs mt-0.5">
+                <AlertTriangle className="h-5 w-5" />
+              </div>
+              <div className="space-y-1.5 flex-1">
                 <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-sm text-rose-800 dark:text-rose-300">
-                    {error.setupRequired
-                      ? "Configuration Required: API Key Missing"
-                      : error.error || "Generation Failed"}
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white">
+                    {error.error?.includes("Sign In Required")
+                      ? "Sign In Required for Voice Interview"
+                      : "High Traffic Demand"}
                   </h4>
-                  {error.setupRequired && (
-                    <span className="rounded-full bg-rose-100 dark:bg-rose-500/20 px-2 py-0.5 text-[10px] font-semibold text-rose-700 dark:text-rose-300">
-                      HTTP 503
-                    </span>
-                  )}
+                  <span className="rounded-full bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 px-2.5 py-0.5 text-[10px] font-semibold">
+                    Temporary Delay
+                  </span>
                 </div>
 
-                {error.instructions && (
-                  <div className="rounded-xl bg-white/70 dark:bg-black/40 p-3.5 border border-rose-200 dark:border-rose-900/40 text-slate-800 dark:text-slate-300">
-                    <p className="font-semibold text-slate-900 dark:text-slate-200 mb-1">
-                      Setup Instructions:
-                    </p>
-                    <p className="text-slate-700 dark:text-slate-300 mb-2">{error.instructions}</p>
-                    <div className="bg-slate-100 dark:bg-slate-950 p-2.5 rounded-lg font-mono text-[11px] text-indigo-700 dark:text-indigo-300 border border-slate-300 dark:border-slate-800">
-                      # D:/Project/interview-iq/.env.local<br />
-                      GEMINI_API_KEY=your_gemini_api_key_here<br />
-                      GEMINI_MODEL=gemini-3.8-flash
-                    </div>
-                  </div>
-                )}
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs">
+                  {error.error || "Our interview servers are currently experiencing heavy traffic and high demand. Please try again after some time."}
+                </p>
 
-                {error.details && (
-                  <p className="text-rose-700 dark:text-rose-300/80 leading-relaxed font-mono text-[11px]">
-                    Details: {error.details}
-                  </p>
-                )}
+                <div className="pt-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setError(null)}
+                    className="rounded-xl border border-amber-300 bg-white hover:bg-amber-50 px-3.5 py-1.5 text-xs font-semibold text-amber-900 dark:border-amber-600 dark:bg-slate-900 dark:text-amber-200 transition-colors"
+                  >
+                    Dismiss & Try Again
+                  </button>
+                </div>
               </div>
             </div>
           </div>
