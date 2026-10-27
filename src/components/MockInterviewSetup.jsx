@@ -131,6 +131,9 @@ export default function MockInterviewSetup() {
         sessionStorage.setItem("interviewiq_active_session", JSON.stringify(data));
         sessionStorage.setItem("interviewiq_session_answers", JSON.stringify({}));
         sessionStorage.removeItem("interviewiq_session_evaluation");
+        sessionStorage.removeItem("interviewiq_session_completed");
+        sessionStorage.removeItem("interviewiq_current_index");
+        sessionStorage.removeItem("interviewiq_completion_view_mode");
       }
 
       // Navigate to interactive session

@@ -81,15 +81,29 @@ export default function InterviewSessionClient() {
     return {};
   });
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = sessionStorage.getItem("interviewiq_current_index");
+        if (stored !== null) {
+          const idx = parseInt(stored, 10);
+          if (!isNaN(idx) && idx >= 0) return idx;
+        }
+      } catch {}
+    }
+    return 0;
+  });
 
   const [timerSeconds, setTimerSeconds] = useState(() => {
     if (typeof window !== "undefined") {
       try {
         const stored = sessionStorage.getItem("interviewiq_active_session");
+        const storedIdx = sessionStorage.getItem("interviewiq_current_index");
+        const idx = storedIdx !== null ? parseInt(storedIdx, 10) : 0;
         if (stored) {
           const parsed = JSON.parse(stored);
-          return parsed?.questions?.[0]?.expectedDurationSeconds || 120;
+          const safeIdx = !isNaN(idx) && idx >= 0 && idx < (parsed?.questions?.length || 0) ? idx : 0;
+          return parsed?.questions?.[safeIdx]?.expectedDurationSeconds || 120;
         }
       } catch {
         return 120;
@@ -100,7 +114,18 @@ export default function InterviewSessionClient() {
 
   const [isTimerPaused, setIsTimerPaused] = useState(false);
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const isDone = sessionStorage.getItem("interviewiq_session_completed");
+        const hasEval = sessionStorage.getItem("interviewiq_session_evaluation");
+        return isDone === "true" || !!hasEval;
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
   const [transcriptCopied, setTranscriptCopied] = useState(false);
 
   // Step 5: Voice Interaction States
@@ -142,12 +167,54 @@ export default function InterviewSessionClient() {
   const [completionViewMode, setCompletionViewMode] = useState(() => {
     if (typeof window !== "undefined") {
       try {
+        const storedMode = sessionStorage.getItem("interviewiq_completion_view_mode");
+        if (storedMode) return storedMode;
         const stored = sessionStorage.getItem("interviewiq_session_evaluation");
         if (stored) return "report";
       } catch {}
     }
     return "choice";
   });
+
+  const changeCompletionViewMode = (mode) => {
+    setCompletionViewMode(mode);
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.setItem("interviewiq_completion_view_mode", mode);
+      } catch {}
+    }
+  };
+
+  const markSessionCompleted = (completed) => {
+    setIsCompleted(completed);
+    if (typeof window !== "undefined") {
+      try {
+        if (completed) {
+          sessionStorage.setItem("interviewiq_session_completed", "true");
+        } else {
+          sessionStorage.removeItem("interviewiq_session_completed");
+        }
+      } catch (e) {
+        console.error("Failed to sync completed state:", e);
+      }
+    }
+  };
+
+  const handleStartAnotherInterview = () => {
+    stopListening();
+    stopReading();
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.removeItem("interviewiq_active_session");
+        sessionStorage.removeItem("interviewiq_session_answers");
+        sessionStorage.removeItem("interviewiq_session_evaluation");
+        sessionStorage.removeItem("interviewiq_session_completed");
+        sessionStorage.removeItem("interviewiq_current_index");
+        sessionStorage.removeItem("interviewiq_completion_view_mode");
+      } catch (e) {}
+    }
+    router.push("/mock-interview");
+  };
 
   // Step 6: Authentication & MongoDB Persistence State
   const { data: authSession, status: authStatus } = useSession();
@@ -234,6 +301,11 @@ export default function InterviewSessionClient() {
     lastSpokenQuestionIdRef.current = null;
 
     setCurrentIndex(targetIndex);
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.setItem("interviewiq_current_index", targetIndex.toString());
+      } catch {}
+    }
     const targetQ = questions[targetIndex];
     setTimerSeconds(targetQ?.expectedDurationSeconds || 120);
     setIsTimerPaused(false);
@@ -556,7 +628,8 @@ export default function InterviewSessionClient() {
       }
 
       setEvaluation(data);
-      setCompletionViewMode("report");
+      markSessionCompleted(true);
+      changeCompletionViewMode("report");
 
       if (typeof window !== "undefined") {
         try {
@@ -692,7 +765,8 @@ export default function InterviewSessionClient() {
           <EvaluationReportView
             evaluation={evaluation}
             sessionSettings={sessionData.settings}
-            onViewTranscript={() => setCompletionViewMode("transcript")}
+            onViewTranscript={() => changeCompletionViewMode("transcript")}
+            onConfigureAnother={handleStartAnotherInterview}
           />
         </div>
       );
@@ -722,7 +796,7 @@ export default function InterviewSessionClient() {
               {evaluation && completionViewMode === "transcript" && (
                 <button
                   type="button"
-                  onClick={() => setCompletionViewMode("report")}
+                  onClick={() => changeCompletionViewMode("report")}
                   className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:text-white transition-colors"
                 >
                   <Award className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
@@ -776,13 +850,14 @@ export default function InterviewSessionClient() {
                   </>
                 )}
               </button>
-              <Link
-                href="/mock-interview"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white transition-all shadow-md shadow-indigo-600/30"
+              <button
+                type="button"
+                onClick={handleStartAnotherInterview}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-4 py-2 text-xs font-semibold text-white transition-all shadow-md shadow-indigo-600/30 cursor-pointer"
               >
                 <span>Start Another</span>
                 <RotateCcw className="h-3.5 w-3.5" />
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -902,8 +977,8 @@ export default function InterviewSessionClient() {
               {evaluation ? (
                 <button
                   type="button"
-                  onClick={() => setCompletionViewMode("report")}
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 px-6 py-3 text-xs font-bold text-white shadow-xl shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all active:scale-95"
+                  onClick={() => changeCompletionViewMode("report")}
+                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 px-6 py-3 text-xs font-bold text-white shadow-xl shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all active:scale-95 cursor-pointer"
                 >
                   <Award className="h-4 w-4" />
                   <span>View Existing Evaluation Report ({evaluation.overallScore}/100)</span>
@@ -932,8 +1007,8 @@ export default function InterviewSessionClient() {
               {completionViewMode !== "transcript" ? (
                 <button
                   type="button"
-                  onClick={() => setCompletionViewMode("transcript")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors"
+                  onClick={() => changeCompletionViewMode("transcript")}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors cursor-pointer"
                 >
                   <FileText className="h-4 w-4 text-slate-500 dark:text-slate-400" />
                   <span>Review Raw Transcript Only</span>
@@ -941,8 +1016,8 @@ export default function InterviewSessionClient() {
               ) : (
                 <button
                   type="button"
-                  onClick={() => setCompletionViewMode("choice")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors"
+                  onClick={() => changeCompletionViewMode("choice")}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white shadow-2xs transition-colors cursor-pointer"
                 >
                   <span>Return to Completion Hub</span>
                 </button>
@@ -951,8 +1026,8 @@ export default function InterviewSessionClient() {
               {meaningfulAnsweredCount === 0 && (
                 <button
                   type="button"
-                  onClick={() => setIsCompleted(false)}
-                  className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-5 py-3 text-xs font-semibold text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-950/30 dark:text-indigo-300 dark:hover:text-white transition-colors"
+                  onClick={() => markSessionCompleted(false)}
+                  className="inline-flex items-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-5 py-3 text-xs font-semibold text-indigo-700 dark:border-indigo-500/30 dark:bg-indigo-950/30 dark:text-indigo-300 dark:hover:text-white transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   <span>Return to Interview to Answer</span>
@@ -1047,20 +1122,21 @@ export default function InterviewSessionClient() {
               {evaluation && (
                 <button
                   type="button"
-                  onClick={() => setCompletionViewMode("report")}
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-4 py-2.5 text-xs font-semibold text-indigo-700 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:text-white transition-colors"
+                  onClick={() => changeCompletionViewMode("report")}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-4 py-2.5 text-xs font-semibold text-indigo-700 dark:border-indigo-500/40 dark:bg-indigo-950/40 dark:text-indigo-300 dark:hover:text-white transition-colors cursor-pointer"
                 >
                   <Award className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
                   <span>View Evaluation Report</span>
                 </button>
               )}
-              <Link
-                href="/mock-interview"
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all"
+              <button
+                type="button"
+                onClick={handleStartAnotherInterview}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all cursor-pointer"
               >
                 <span>Configure Another Interview</span>
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -1641,14 +1717,14 @@ export default function InterviewSessionClient() {
                   stopListening();
                   stopReading();
                   setIsFinishModalOpen(false);
-                  setIsCompleted(true);
+                  markSessionCompleted(true);
                   if (evaluation) {
-                    setCompletionViewMode("report");
+                    changeCompletionViewMode("report");
                   } else {
-                    setCompletionViewMode("choice");
+                    changeCompletionViewMode("choice");
                   }
                 }}
-                className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all"
+                className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-xs font-semibold text-white shadow-md shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all cursor-pointer"
               >
                 Confirm & Finish
               </button>

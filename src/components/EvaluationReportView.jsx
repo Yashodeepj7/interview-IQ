@@ -24,6 +24,7 @@ export default function EvaluationReportView({
   evaluation,
   sessionSettings,
   onViewTranscript,
+  onConfigureAnother,
 }) {
   const [copied, setCopied] = useState(false);
   const [expandedQuestions, setExpandedQuestions] = useState(() => {
@@ -569,13 +570,36 @@ export default function EvaluationReportView({
           </button>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/mock-interview"
-              className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all"
-            >
-              <span>Configure Another Interview</span>
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            {onConfigureAnother ? (
+              <button
+                type="button"
+                onClick={onConfigureAnother}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all cursor-pointer"
+              >
+                <span>Configure Another Interview</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            ) : (
+              <Link
+                href="/mock-interview"
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    try {
+                      sessionStorage.removeItem("interviewiq_active_session");
+                      sessionStorage.removeItem("interviewiq_session_answers");
+                      sessionStorage.removeItem("interviewiq_session_evaluation");
+                      sessionStorage.removeItem("interviewiq_session_completed");
+                      sessionStorage.removeItem("interviewiq_current_index");
+                      sessionStorage.removeItem("interviewiq_completion_view_mode");
+                    } catch {}
+                  }
+                }}
+                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 transition-all"
+              >
+                <span>Configure Another Interview</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            )}
           </div>
         </div>
       </div>
